@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { useGameSocket } from "../services/webSocket/useGameSocket";
-import { useGamePrivateSocket } from "../services/webSocket/useGamePRivateSocket";
+import { useGamePrivateSocket } from "../services/webSocket/UseGamePRivateSocket";
 
 const GameContext = createContext(null);
 
