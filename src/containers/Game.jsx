@@ -2,13 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import { useSocket } from "../services/webSocket/socketProvider";
 import mazo from "../utils/images/mazo.png";
 import fondo from "../utils/images/fondo.jpg";
+import cartaAtras from "../utils/images/carta-atras.png";
 import Card from "../models/Card";
 import GameEventManager from "../services/GameEventManager";
 import { useGame } from "../providers/GameProvider";
 import CharacterHabilityManager from "../services/CharacterHabilityManager";
-import { scrollLeft, scrollRight } from "../utils/horizontalScroll";
 import ScrollableCardRow from "../components/ScrollableCardRow";
-import { use } from "react";
 import { useNavigate } from "react-router-dom";
 
 /**
@@ -112,6 +111,26 @@ const Game = () => {
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, [canBuild]);
 
+    const getEnemyDistrictsInHand = () => {
+        const count = Math.max(0, Number(enemy?.numberDistrictsInHand) || 0);
+
+        return (
+            <ScrollableCardRow>
+                {Array.from({ length: count }).map((_, i) => (
+                    <div
+                        key={i}
+                        className=" aspect-[3/4] w-[140px] shrink-0 overflow-hidden">
+                        <img
+                            src={cartaAtras}
+                            alt={`Distrito ${i + 1}`}
+                            className="card card-invisible w-full h-full object-cover block"
+                        />
+                    </div>
+                ))}
+            </ScrollableCardRow>
+        );
+    };
+
     if (gameEnded) {
         return (
             <div className="min-h-screen flex flex-col items-center bg-gray-900 text-white p-6">
@@ -205,9 +224,9 @@ const Game = () => {
                 >
                     <div className="tablero">
                         {Array.from({ length: 12 }).map((_, index) => (
-                            <div key={index} className="celda border">
+                            <div key={index} className="celda">
 
-                                {index === 1 && enemy.numberDistrictsInHand}
+                                {index === 1 && getEnemyDistrictsInHand()}
 
                                 {index === 2 && (
                                     <div className="flex gap-2 justify-center items-center card-row">

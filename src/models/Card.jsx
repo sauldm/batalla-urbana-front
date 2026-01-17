@@ -1,8 +1,13 @@
 import inquisidorImg from "../utils/images/inquisidor.jpeg";
 import { CARD_TEXT_COLORS } from "../store/CardColors";
+import TakeThree from "./charactermodal/TakeThree";
+import { useState } from "react";
 
 export const Card = ({ card, canBuild, onBuild, isBuilt, executeDistrictHability, gameId, districtHabilityUsed, isPlayerTurn, className = '' }) => {
     const textColor = CARD_TEXT_COLORS[card.color] ?? "text-game-text-main";
+
+    const [showDistrictHability, setShowDistrictHability] = useState(false);
+
 
     const interactiveClasses = canBuild
         ? `
@@ -18,6 +23,22 @@ export const Card = ({ card, canBuild, onBuild, isBuilt, executeDistrictHability
         border border-transparent
         opacity-90
       `;
+
+      if (showDistrictHability) {
+        return (
+            <TakeThree
+                onExecute={() => {
+                    executeDistrictHability({
+                        gameId: gameId,
+                        districtId: card.id
+                    });
+                }}
+                onClose={() => setShowDistrictHability(false)}
+                districtId={card.id}
+                gameId={gameId}
+            />
+        );
+      }
 
     return (
         <div
@@ -48,7 +69,7 @@ export const Card = ({ card, canBuild, onBuild, isBuilt, executeDistrictHability
             )}
 
             {card.color === 5 && isBuilt && isPlayerTurn && (
-                <button disabled={districtHabilityUsed} onClick={() => executeDistrictHability({ gameId: gameId, districtId: card.id })} className="mt-1 text-sm">
+                <button disabled={districtHabilityUsed} onClick={() => setShowDistrictHability(true)} className="mt-1 text-sm">
                     Habilidad
                 </button>
             )}

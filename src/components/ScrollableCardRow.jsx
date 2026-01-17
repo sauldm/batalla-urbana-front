@@ -1,5 +1,4 @@
-import { useEffect, useRef, useState } from "react";
-import { scrollLeft, scrollRight } from "../utils/horizontalScroll";
+import { useRef } from "react";
 
 export default function ScrollableCardRow({ children }) {
     const rowRef = useRef(null);
