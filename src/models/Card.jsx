@@ -24,7 +24,7 @@ export const Card = ({ card, canBuild, onBuild, isBuilt, executeDistrictHability
         opacity-90
       `;
 
-      if (showDistrictHability) {
+    if (showDistrictHability) {
         return (
             <TakeThree
                 onExecute={() => {
@@ -38,11 +38,19 @@ export const Card = ({ card, canBuild, onBuild, isBuilt, executeDistrictHability
                 gameId={gameId}
             />
         );
-      }
+    }
 
     return (
         <div
-            className={`card-component ${className} ${interactiveClasses}`}
+            className={`
+    card-component
+    w-24 h-36
+    tablet:w-28 tablet:h-40
+    flex flex-col items-center justify-between
+    rounded-xl
+    ${className}
+    ${interactiveClasses}
+  `}
             onClick={(e) => {
                 e.stopPropagation();
                 if (canBuild) onBuild?.();

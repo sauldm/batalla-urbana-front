@@ -37,6 +37,25 @@ export default function GameEventModal({
 
   return (
     <>
+
+    {event?.events === "ARCHITECT" && isPlayerTurn && (
+        <>
+          <div className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm" />
+          <div className="fixed inset-0 z-50 flex items-center justify-center">
+            <div className="bg-game-back border-2 border-game-board rounded-2xl shadow-2xl p-6">
+              <h3 className="text-game-highlight text-center mb-4">
+                Cartas obtenidas
+              </h3>
+              <div className="flex gap-4">
+                {privateInfo.districtsCardsGained.map(d => (
+                  <Card key={d.id} card={d} />
+                ))}
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+      
       {event && !mustChoose && event.events !== "ARCHITECT" && event.events !== "PRIVATE" && (
         <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 pointer-events-none animate-toast-in">
           <div className="bg-game-back border border-game-board rounded-xl shadow-xl px-6 py-3 backdrop-blur-md">
@@ -75,23 +94,7 @@ export default function GameEventModal({
         </>
       )}
 
-      {event?.events === "ARCHITECT" && isPlayerTurn && (
-        <>
-          <div className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm" />
-          <div className="fixed inset-0 z-50 flex items-center justify-center">
-            <div className="bg-game-back border-2 border-game-board rounded-2xl shadow-2xl p-6">
-              <h3 className="text-game-highlight text-center mb-4">
-                Cartas obtenidas
-              </h3>
-              <div className="flex gap-4">
-                {privateInfo.districtsCardsGained.map(d => (
-                  <Card key={d.id} card={d} />
-                ))}
-              </div>
-            </div>
-          </div>
-        </>
-      )}
+      
 
       {event?.events === "PRIVATE" && (
         <>
