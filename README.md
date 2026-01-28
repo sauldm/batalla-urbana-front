@@ -56,6 +56,7 @@ cd batalla-urbana-front
 npm install
 npm run dev
 ```
+Disponible en: http://localhost:5173
 
 ---
 
