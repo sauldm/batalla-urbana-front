@@ -1,16 +1,88 @@
-# React + Vite
+# Batalla Urbana — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Frontend del juego web multijugador en tiempo real **Batalla Urbana**.
+La aplicación se conecta al backend mediante WebSockets para recibir eventos de partida y enviar acciones del jugador.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tecnologías
 
-## React Compiler
+- JavaScript
+- React
+- Tailwind CSS
+- WebSockets
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## Demo online
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Aplicación web: http://93.93.112.225
+
+---
+
+## Funcionalidades
+
+- Interfaz para salas y partidas multijugador
+- Indicador de turno y estado de la partida
+- Ejecución de acciones y habilidades
+- Actualización de la interfaz en tiempo real
+- Bloqueo de acciones cuando no es el turno del jugador
+
+---
+
+## Arquitectura del frontend
+
+La aplicación está organizada por responsabilidades para facilitar el mantenimiento y la evolución.
+
+- Componentes reutilizables de interfaz
+- Gestión de estado de la partida
+- Servicios de comunicación con el backend
+- Separación entre lógica de presentación y lógica de red
+
+---
+
+## Ejecutar en local
+
+### Requisitos
+
+- Node.js
+- npm
+
+### Pasos
+
+```bash
+git clone https://github.com/sauldm/batalla-urbana-front
+cd batalla-urbana-front
+npm install
+npm run dev
+```
+
+---
+
+## WebSockets
+
+- Conexión al backend mediante WebSockets
+- Recepción de eventos de partida en tiempo real
+- Envío de acciones del jugador al servidor
+- Sincronización del estado de la partida entre clientes
+- Actualización de la interfaz en función de los eventos recibidos
+
+---
+
+## Roadmap
+
+- Mejoras de experiencia de usuario (UX)
+- Manejo de estados de conexión y reconexión
+- Feedback visual más detallado de eventos de partida
+- Optimización del estado global de la aplicación
+
+---
+
+## Objetivo del frontend
+
+Este frontend se ha desarrollado como parte de un portfolio profesional con el objetivo de demostrar:
+
+- Desarrollo de interfaces web con React
+- Gestión de estado en aplicaciones en tiempo real
+- Integración con un backend mediante WebSockets
+- Creación de interfaces claras para juegos multijugador
