@@ -23,7 +23,6 @@ La aplicación se conecta al backend mediante WebSockets para recibir eventos de
 ## Funcionalidades
 
 - Interfaz para salas y partidas multijugador
-- Indicador de turno y estado de la partida
 - Ejecución de acciones y habilidades
 - Actualización de la interfaz en tiempo real
 - Bloqueo de acciones cuando no es el turno del jugador
