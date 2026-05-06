@@ -2,13 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import { useSocket } from "../services/webSocket/socketProvider";
 import mazo from "../utils/images/mazo.png";
 import fondo from "../utils/images/fondo.jpg";
+import cartaAtras from "../utils/images/carta-atras.png";
 import Card from "../models/Card";
 import GameEventManager from "../services/GameEventManager";
-import { useGame } from "../providers/gameProvider";
+import { useGame } from "../providers/GameProvider";
 import CharacterHabilityManager from "../services/CharacterHabilityManager";
-import { scrollLeft, scrollRight } from "../utils/horizontalScroll";
 import ScrollableCardRow from "../components/ScrollableCardRow";
-import { use } from "react";
 import { useNavigate } from "react-router-dom";
 
 /**
@@ -112,6 +111,26 @@ const Game = () => {
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, [canBuild]);
 
+    const getEnemyDistrictsInHand = () => {
+        const count = Math.max(0, Number(enemy?.numberDistrictsInHand) || 0);
+
+        return (
+            <ScrollableCardRow>
+                {Array.from({ length: count }).map((_, i) => (
+                    <div
+                        key={i}
+                        className=" aspect-[3/4] w-[140px] shrink-0 overflow-hidden">
+                        <img
+                            src={cartaAtras}
+                            alt={`Distrito ${i + 1}`}
+                            className="card card-invisible w-full h-full object-cover block"
+                        />
+                    </div>
+                ))}
+            </ScrollableCardRow>
+        );
+    };
+
     if (gameEnded) {
         return (
             <div className="min-h-screen flex flex-col items-center bg-gray-900 text-white p-6">
@@ -160,7 +179,7 @@ const Game = () => {
 
     return (
         <div className="w-screen h-screen bg-game-bg overflow-hidden parent-perspective">
-            <div className="w-full h-full px-4 pt-4 pb-6 md:px-6 md:pt-6 md:pb-8">
+            <div className="w-full h-dvh px-4 pt-4 pb-6 md:px-6 md:pt-6 md:pb-8 flex flex-col">
 
                 <GameEventManager
                     events={events}
@@ -182,7 +201,7 @@ const Game = () => {
                         enemy={enemy}
                     />
                 )}
-                <div className="grid grid-cols-3 items-center">
+                <div className="grid grid-cols-1 tablet:grid-cols-3 items-center gap-2">
                     <h2 className="text-white text-left">
                         {player.gold} 🪙
                     </h2>
@@ -200,17 +219,17 @@ const Game = () => {
 
 
                 <div
-                    className="w-full h-full rounded-xl shadow-2xl overflow-hidden bg-no-repeat bg-center bg-cover"
+                    className="w-full flex-1 rounded-xl shadow-2xl overflow-hidden bg-no-repeat bg-center bg-cover"
                     style={{ backgroundImage: `url(${fondo})` }}
                 >
                     <div className="tablero">
                         {Array.from({ length: 12 }).map((_, index) => (
-                            <div key={index} className="celda border">
+                            <div key={index} className="celda">
 
-                                {index === 1 && enemy.numberDistrictsInHand}
+                                {index === 1 && getEnemyDistrictsInHand()}
 
                                 {index === 2 && (
-                                    <div>
+                                    <div className="flex gap-2 justify-center items-center card-row">
                                         {enemy.characterCardsPlayed.map(c => (
                                             <Card key={c.id} card={c} />
                                         ))}
@@ -249,7 +268,7 @@ const Game = () => {
 
 
                                 {index === 9 && (
-                                    <div className="flex gap-4 flex-wrap justify-center">
+                                    <div className="flex gap-4 flex-wrap justify-center card-row">
                                         {privateInfo.characterCards.map(c => (
                                             <Card key={c.id} card={c} className="card" />
                                         ))}
@@ -280,22 +299,25 @@ const Game = () => {
 
                                 {index === 11 && (
 
-                                    <div className="grid grid-cols-1 gap-4">
+                                    <div className="grid grid-cols-1 gap-3 controls">
                                         <button
                                             disabled={!isPlayerTurn}
                                             onClick={() => setCanBuild(!canBuild)}
+                                            className="btn-action"
                                         >
                                             Comprar distrito
                                         </button>
                                         <button
                                             disabled={!canUseCharacterHability}
                                             onClick={() => setShowCharacterHability(true)}
+                                            className="btn-action"
                                         >
                                             Habilidad personaje
                                         </button>
                                         <button
                                             disabled={!isPlayerTurn}
                                             onClick={nextStep}
+                                            className="btn-action"
                                         >
                                             Terminar turno
                                         </button>

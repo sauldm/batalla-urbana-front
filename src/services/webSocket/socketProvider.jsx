@@ -25,7 +25,7 @@ export function SocketProvider({ children }) {
     useEffect(() => {
         if (!nick) return;
 
-        const socket = new SockJS("http://localhost:8080/ws");
+        const socket = new SockJS("http://93.93.112.225:8080/ws");
 
         const client = new Client({
             webSocketFactory: () => socket,

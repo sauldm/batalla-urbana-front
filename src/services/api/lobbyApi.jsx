@@ -10,7 +10,7 @@
  * @throws {Error} Si la respuesta HTTP no es `ok`.
  */
 export async function createLobbyHttp() {
-    const res = await fetch("http://localhost:8080/api/lobbies", {
+    const res = await fetch("http://93.93.112.225:8080/api/lobbies", {
         method: "POST",
     });
 
@@ -36,7 +36,7 @@ export async function createLobbyHttp() {
  * @throws {Error} Si la respuesta HTTP no es `ok`.
  */
 export async function joinLobbyHttp( id, nickName ) {
-    const res = await fetch("http://localhost:8080/api/joinLobby", {
+    const res = await fetch("http://93.93.112.225:8080/api/joinLobby", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -70,7 +70,7 @@ export async function joinLobbyHttp( id, nickName ) {
  * @throws {Error} Si la respuesta HTTP no es `ok`.
  */
 export async function createGameHttp(id, players) {
-    const res = await fetch("http://localhost:8080/api/createGame", {
+    const res = await fetch("http://93.93.112.225:8080/api/createGame", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

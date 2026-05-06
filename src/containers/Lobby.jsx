@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import Layout from "../components/layout/Layout";
 import { useSocket } from "../services/webSocket/socketProvider";
 import { createGameHttp } from "../services/api/lobbyApi";
-import { useLobby } from "../providers/lobbyProvider";
+import { useLobby } from "../providers/LobbyProvider";
 
 /**
  * Componente de la sala (lobby) donde los jugadores esperan antes de iniciar la partida.

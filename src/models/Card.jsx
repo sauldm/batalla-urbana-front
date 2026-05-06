@@ -1,8 +1,13 @@
 import inquisidorImg from "../utils/images/inquisidor.jpeg";
 import { CARD_TEXT_COLORS } from "../store/CardColors";
+import TakeThree from "./charactermodal/TakeThree";
+import { useState } from "react";
 
-export const Card = ({ card, canBuild, onBuild, isBuilt, executeDistrictHability, gameId, districtHabilityUsed, isPlayerTurn }) => {
+export const Card = ({ card, canBuild, onBuild, isBuilt, executeDistrictHability, gameId, districtHabilityUsed, isPlayerTurn, className = '' }) => {
     const textColor = CARD_TEXT_COLORS[card.color] ?? "text-game-text-main";
+
+    const [showDistrictHability, setShowDistrictHability] = useState(false);
+
 
     const interactiveClasses = canBuild
         ? `
@@ -19,12 +24,33 @@ export const Card = ({ card, canBuild, onBuild, isBuilt, executeDistrictHability
         opacity-90
       `;
 
+    if (showDistrictHability) {
+        return (
+            <TakeThree
+                onExecute={() => {
+                    executeDistrictHability({
+                        gameId: gameId,
+                        districtId: card.id
+                    });
+                }}
+                onClose={() => setShowDistrictHability(false)}
+                districtId={card.id}
+                gameId={gameId}
+            />
+        );
+    }
+
     return (
         <div
             className={`
-        flex flex-col gap-2 items-center rounded-lg p-3 bg-game-highlight
-        ${interactiveClasses}
-      `}
+    card-component
+    w-24 h-36
+    tablet:w-28 tablet:h-40
+    flex flex-col items-center justify-between
+    rounded-xl
+    ${className}
+    ${interactiveClasses}
+  `}
             onClick={(e) => {
                 e.stopPropagation();
                 if (canBuild) onBuild?.();
@@ -33,15 +59,14 @@ export const Card = ({ card, canBuild, onBuild, isBuilt, executeDistrictHability
                 <img
                     src={inquisidorImg}
                     alt="Bishop"
-                    className="w-24 h-32 object-contain"
-                />
+                    className="w-20 h-28 tablet:w-24 tablet:h-32 object-contain" />
             )}
 
-            <p className={`${textColor} font-semibold text-center`}>
+            <p className={`${textColor} font-semibold text-center text-sm tablet:text-base`}>
                 {card.name}
             </p>
 
-            <p className="text-white opacity-80 text-sm text-center">
+            <p className="text-white opacity-80 text-xs tablet:text-sm text-center">
                 {card.description}
             </p>
 
@@ -52,7 +77,7 @@ export const Card = ({ card, canBuild, onBuild, isBuilt, executeDistrictHability
             )}
 
             {card.color === 5 && isBuilt && isPlayerTurn && (
-                <button disabled={districtHabilityUsed} onClick={() => executeDistrictHability({ gameId: gameId, districtId: card.id })} className="mt-1 text-sm">
+                <button disabled={districtHabilityUsed} onClick={() => setShowDistrictHability(true)} className="mt-1 text-sm">
                     Habilidad
                 </button>
             )}

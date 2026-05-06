@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from "react";
-import GameEventModal from "../components/modal/gameEventModal";
+import { useEffect, useRef, useState, useCallback } from "react";
+import { createPortal } from "react-dom";
+import GameEventModal from "../components/modal/GameEventModal";
 import { loadShownEvents, saveShownEvents } from "../hooks/loadShownEvents";
 
 export default function GameEventManager({
@@ -40,26 +41,53 @@ export default function GameEventManager({
         }
     }, [queue, current]);
 
+    const close = useCallback(() => setCurrent(null), []);
+
+    useEffect(() => {
+        let timer;
+
+        if (current && current.events !== "ARCHITECT" && current.events !== "PRIVATE") {
+            timer = setTimeout(close, 2000);
+        }
+
+        if (current?.events === "GAME_ENDED") {
+            setGameEnded(true);
+        }
+
+        return () => {
+            if (timer) clearTimeout(timer);
+        };
+    }, [current, close, setGameEnded]);
+
     if (!current && !mustChoose) return null;
 
-    const close = () => setCurrent(null);
-
     return (
-        <GameEventModal
-            event={current}
-            onClose={close}
-            onChooseCoin={() => {
-                onChooseCoin();
-                close();
-            }}
-            onChooseCard={() => {
-                onChooseCard();
-                close();
-            }}
-            mustChoose={mustChoose}
-            privateInfo={privateInfo}
-            isPlayerTurn={isPlayerTurn}
-            setGameEnded={setGameEnded}
-        />
+        <>
+            <GameEventModal
+                event={current}
+                onClose={close}
+                onChooseCoin={() => {
+                    onChooseCoin();
+                    close();
+                }}
+                onChooseCard={() => {
+                    onChooseCard();
+                    close();
+                }}
+                mustChoose={mustChoose}
+                privateInfo={privateInfo}
+                isPlayerTurn={isPlayerTurn}
+                setGameEnded={setGameEnded}
+            />
+            {current && !mustChoose && current.events !== "ARCHITECT" && current.events !== "PRIVATE" && (
+                <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 pointer-events-none animate-toast-in">
+                    <div className="bg-game-back border border-game-board rounded-xl shadow-xl px-6 py-3 backdrop-blur-md">
+                        <p className="text-game-text-secondary text-lg text-center">
+                            {current.message}
+                        </p>
+                    </div>
+                </div>
+            )}
+        </>
     );
 }

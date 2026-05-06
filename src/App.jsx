@@ -2,8 +2,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Game from "./containers/Game";
 import Home from "./containers/Home";
 import Lobby from "./containers/Lobby";
-import { LobbyProvider } from "./providers/lobbyProvider";
-import { GameProvider } from "./providers/gameProvider";
+import { LobbyProvider } from "./providers/LobbyProvider";
+import { GameProvider } from "./providers/GameProvider";
 import EndGameTable from "./containers/EndGameTable";
 
 export default function App() {
