@@ -1,5 +1,6 @@
 import TakeThree from "./charactermodal/TakeThree";
 import { useState } from "react";
+import divitia from "../utils/images/divitia.png";
 
 // ── Imágenes de personaje ──────────────────────────────────────────────────
 import asesinoImg     from "../utils/images/verdugo.png";
@@ -66,8 +67,9 @@ function CornerOrbs({ color }) {
 }
 
 // ── Tamaño compartido ──────────────────────────────────────────────────────
-const SIZE_CLASSES      = "w-[112px] h-[164px] tablet:w-[130px] tablet:h-[190px]";
-const SIZE_CLASSES_SMALL = "w-[70px]  h-[102px] tablet:w-[82px]  tablet:h-[120px]";
+const SIZE_CLASSES       = "w-[112px] h-[164px] tablet:w-[130px] tablet:h-[190px]";
+const SIZE_CLASSES_SMALL = "w-[98px]  h-[143px] tablet:w-[112px] tablet:h-[164px]";
+const SIZE_CLASSES_FLUID = "w-full aspect-[3/4]";
 const HOVER_CLASSES = "transition-transform duration-200 hover:scale-105 hover:-translate-y-1";
 
 // Franja de color por tipo de personaje (color de la carta)
@@ -81,7 +83,7 @@ const CHARACTER_COLOR_STRIP = {
 };
 
 // ── Carta de PERSONAJE — imagen a pantalla completa ────────────────────────
-function CharacterCardView({ card, theme, canBuild, onBuild, isCurrentTurn, small, className }) {
+function CharacterCardView({ card, theme, canBuild, onBuild, isCurrentTurn, small, fluid, className }) {
   const img = CHARACTER_IMAGES[card.id];
   const strip = CHARACTER_COLOR_STRIP[card.color] ?? CHARACTER_COLOR_STRIP[0];
 
@@ -90,7 +92,7 @@ function CharacterCardView({ card, theme, canBuild, onBuild, isCurrentTurn, smal
       onClick={(e) => { e.stopPropagation(); if (canBuild) onBuild?.(); }}
       className={`
         card-visual relative flex-shrink-0 rounded-xl overflow-hidden select-none
-        ${small ? SIZE_CLASSES_SMALL : SIZE_CLASSES} ${HOVER_CLASSES}
+        ${fluid ? SIZE_CLASSES_FLUID : small ? SIZE_CLASSES_SMALL : SIZE_CLASSES} ${HOVER_CLASSES}
         ${canBuild
           ? "cursor-pointer ring-2 ring-yellow-400 shadow-[0_0_18px_rgba(250,204,21,0.55)]"
           : "cursor-default"
@@ -157,26 +159,24 @@ function CharacterCardView({ card, theme, canBuild, onBuild, isCurrentTurn, smal
 }
 
 // ── Carta de DISTRITO — diseño con gradiente e icono ───────────────────────
-function DistrictCardView({ card, theme, canBuild, onBuild, isBuilt, executeDistrictHability, gameId, districtHabilityUsed, isPlayerTurn, small, className }) {
+function DistrictCardView({ card, theme, canBuild, onBuild, isBuilt, executeDistrictHability, gameId, districtHabilityUsed, isPlayerTurn, small, fluid, className }) {
   const [showHability, setShowHability] = useState(false);
 
-  if (showHability) {
-    return (
+  return (
+    <>
+    {showHability && (
       <TakeThree
         onExecute={() => { executeDistrictHability({ gameId, districtId: card.id }); }}
         onClose={() => setShowHability(false)}
         districtId={card.id}
         gameId={gameId}
       />
-    );
-  }
-
-  return (
+    )}
     <div
       onClick={(e) => { e.stopPropagation(); if (canBuild) onBuild?.(); }}
       className={`
         card-visual relative flex-shrink-0 rounded-xl overflow-hidden select-none
-        ${small ? SIZE_CLASSES_SMALL : SIZE_CLASSES}
+        ${fluid ? SIZE_CLASSES_FLUID : small ? SIZE_CLASSES_SMALL : SIZE_CLASSES}
         ${canBuild
           ? `cursor-pointer ring-2 ring-yellow-400 shadow-[0_0_18px_rgba(250,204,21,0.55)] ${HOVER_CLASSES}`
           : "cursor-default"
@@ -201,7 +201,7 @@ function DistrictCardView({ card, theme, canBuild, onBuild, isBuilt, executeDist
               className="text-[11px] font-black leading-none px-1.5 py-0.5 rounded-md"
               style={{ background: "rgba(0,0,0,0.45)", color: "#fbbf24", border: "1px solid rgba(251,191,36,0.4)" }}
             >
-              {card.gold}🪙
+              <img src={divitia} alt="oro" className="inline w-3 h-3 mr-0.5" />{card.gold}
             </span>
           )}
         </div>
@@ -241,15 +241,17 @@ function DistrictCardView({ card, theme, canBuild, onBuild, isBuilt, executeDist
         {card.color === 5 && isBuilt && isPlayerTurn && (
           <button
             disabled={districtHabilityUsed}
-            onClick={(e) => { e.stopPropagation(); setShowHability(true); }}
+            onClick={(e) => { e.stopPropagation(); if (!districtHabilityUsed) setShowHability(true); }}
             className="mt-1 w-full text-[9px] py-0.5 rounded font-bold tracking-wide"
             style={{
-              background: districtHabilityUsed ? "rgba(100,100,100,0.5)" : `linear-gradient(135deg, ${theme.border}99, ${theme.border}44)`,
-              border: `1px solid ${theme.border}88`,
-              color: "white",
+              background: districtHabilityUsed ? "rgba(60,60,60,0.7)" : `linear-gradient(135deg, ${theme.border}99, ${theme.border}44)`,
+              border: `1px solid ${districtHabilityUsed ? "rgba(255,255,255,0.1)" : theme.border + "88"}`,
+              color: districtHabilityUsed ? "rgba(255,255,255,0.3)" : "white",
+              pointerEvents: districtHabilityUsed ? "none" : "auto",
+              cursor: districtHabilityUsed ? "not-allowed" : "pointer",
             }}
           >
-            ✦ Habilidad
+            {districtHabilityUsed ? "✦ Usada" : "✦ Habilidad"}
           </button>
         )}
       </div>
@@ -261,6 +263,7 @@ function DistrictCardView({ card, theme, canBuild, onBuild, isBuilt, executeDist
         />
       )}
     </div>
+    </>
   );
 }
 

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useSocket } from "../services/webSocket/socketProvider";
-import mazo from "../utils/images/mazo.png";
 import fondo from "../utils/images/fondo.jpg";
+import divitia from "../utils/images/divitia.png";
 import cartaAtras from "../utils/images/carta-atras.png";
 import Card from "../models/Card";
 import GameEventManager from "../services/GameEventManager";
@@ -120,7 +120,7 @@ const Game = () => {
                 {Array.from({ length: count }).map((_, i) => (
                     <div
                         key={i}
-                        className=" aspect-[3/4] w-[140px] shrink-0 overflow-hidden">
+                        className="aspect-[3/4] w-[98px] shrink-0 overflow-hidden">
                         <img
                             src={cartaAtras}
                             alt={`Distrito ${i + 1}`}
@@ -203,8 +203,9 @@ const Game = () => {
                     />
                 )}
                 <div className="grid grid-cols-1 tablet:grid-cols-3 items-center gap-2">
-                    <h2 className="text-white text-left">
-                        {player.gold} 🪙
+                    <h2 className="text-white text-left flex items-center gap-2">
+                        <img src={divitia} alt="oro" className="w-8 h-8" />
+                        <span className="text-xl font-black leading-none">{player.gold}</span>
                     </h2>
 
                     <h3 className="text-white text-center">
@@ -224,111 +225,119 @@ const Game = () => {
                     style={{ backgroundImage: `url(${fondo})` }}
                 >
                     <div className="tablero">
-                        {Array.from({ length: 12 }).map((_, index) => (
-                            <div key={index} className="celda">
 
-                                {index === 1 && getEnemyDistrictsInHand()}
-
-                                {index === 2 && (
-                                    <div className="flex items-center justify-center h-full">
-                                        <CharacterCardStack
-                                            cards={enemy.characterCardsPlayed}
-                                            characterTurnId={gameState.characterTurnId}
-                                            label="Cartas jugadas por el enemigo"
-                                        />
-                                    </div>
-                                )}
-
-                                {index === 4 && (
-                                    <ScrollableCardRow>
-                                        {enemy?.districtsBuilt.map(d => (
-                                            <Card key={d.id} card={d} small />
-                                        ))}
-                                    </ScrollableCardRow>
-                                )}
-
-                                {index === 3 && (
-                                    <img src={mazo} alt="Mazo" className="imagen-centro" />
-                                )}
-
-                                {index === 7 && (
-                                    <ScrollableCardRow>
-                                        {player.districtsBuilt.map(d => (
-                                            <Card
-                                                key={d.id}
-                                                card={d}
-                                                isBuilt
-                                                executeDistrictHability={executeDistrictHability}
-                                                gameId={gameState.id}
-                                                districtHabilityUsed={gameState.districtHabilityUsed}
-                                                isPlayerTurn={isPlayerTurn}
-                                            />
-                                        ))}
-                                    </ScrollableCardRow>
-                                )}
-
-
-
-                                {index === 9 && (
-                                    <div className="flex items-center justify-center h-full">
-                                        <CharacterCardStack
-                                            cards={privateInfo.characterCards}
-                                            characterTurnId={gameState.characterTurnId}
-                                        />
-                                    </div>
-                                )}
-
-                                {index === 10 && (
-                                    <ScrollableCardRow>
-                                        {privateInfo.districtsInHand.map(d => (
-                                            <Card
-                                                key={d.id}
-                                                card={d}
-                                                canBuild={canBuild}
-                                                className="card"
-                                                onBuild={() => {
-                                                    buildDistrict({
-                                                        gameId: gameState.id,
-                                                        districtId: d.id,
-                                                        characterId: gameState.characterTurnId,
-                                                    });
-                                                    setCanBuild(false);
-                                                }}
-                                            />
-                                        ))}
-                                    </ScrollableCardRow>
-                                )}
-
-
-                                {index === 11 && (
-
-                                    <div className="grid grid-cols-1 gap-3 controls">
-                                        <button
-                                            disabled={!isPlayerTurn}
-                                            onClick={() => setCanBuild(!canBuild)}
-                                            className="btn-action"
-                                        >
-                                            Comprar distrito
-                                        </button>
-                                        <button
-                                            disabled={!canUseCharacterHability}
-                                            onClick={() => setShowCharacterHability(true)}
-                                            className="btn-action"
-                                        >
-                                            Habilidad personaje
-                                        </button>
-                                        <button
-                                            disabled={!isPlayerTurn}
-                                            onClick={nextStep}
-                                            className="btn-action"
-                                        >
-                                            Terminar turno
-                                        </button>
-                                    </div>
-                                )}
-
+                        {/* Fila 1 */}
+                        <div className="celda flex flex-col items-center justify-center gap-3">
+                            <div className="flex flex-col items-center gap-0.5">
+                                <span className="text-white/50 text-xs uppercase tracking-widest">Nombre</span>
+                                <span className="text-white font-bold text-sm truncate max-w-full px-1">{enemy.nickName}</span>
                             </div>
-                        ))}
+                            <div className="flex flex-col items-center gap-0.5">
+                                <span className="text-white/50 text-xs uppercase tracking-widest">Oro</span>
+                                <div className="flex items-center gap-2">
+                                    <img src={divitia} alt="oro" className="w-10 h-10" style={{ filter: "drop-shadow(0 0 6px rgba(251,191,36,0.8))" }} />
+                                    <span className="text-yellow-300 text-2xl font-black leading-none">{enemy.gold}</span>
+                                </div>
+                            </div>
+                            <div className="flex flex-col items-center gap-0.5">
+                                <span className="text-white/50 text-xs uppercase tracking-widest">Cartas</span>
+                                <span className="text-white text-xl font-black">{enemy.numberDistrictsInHand}</span>
+                            </div>
+                        </div>
+                        <div className="celda">{getEnemyDistrictsInHand()}</div>
+                        <div className="celda">
+                            <div className="flex items-center justify-center h-full">
+                                <CharacterCardStack
+                                    cards={enemy.characterCardsPlayed}
+                                    characterTurnId={gameState.characterTurnId}
+                                    label="Cartas jugadas por el enemigo"
+                                />
+                            </div>
+                        </div>
+
+                        {/* Fila 2: distritos comprados enemigo — ancho completo */}
+                        <div className="celda" style={{ gridColumn: "1 / -1" }}>
+                            <ScrollableCardRow>
+                                {enemy?.districtsBuilt.map(d => (
+                                    <Card key={d.id} card={d} small />
+                                ))}
+                            </ScrollableCardRow>
+                        </div>
+
+                        {/* Fila 3: distritos comprados jugador — ancho completo */}
+                        <div className="celda" style={{ gridColumn: "1 / -1" }}>
+                            <ScrollableCardRow>
+                                {player.districtsBuilt.map(d => (
+                                    <Card
+                                        key={d.id}
+                                        card={d}
+                                        small
+                                        isBuilt
+                                        executeDistrictHability={executeDistrictHability}
+                                        gameId={gameState.id}
+                                        districtHabilityUsed={gameState.districtHabilityUsed}
+                                        isPlayerTurn={isPlayerTurn}
+                                    />
+                                ))}
+                            </ScrollableCardRow>
+                        </div>
+
+                        {/* Fila 4 */}
+                        <div className="celda">
+                            <div className="flex items-center justify-center h-full">
+                                <CharacterCardStack
+                                    cards={privateInfo.characterCards}
+                                    characterTurnId={gameState.characterTurnId}
+                                />
+                            </div>
+                        </div>
+                        <div className="celda">
+                            <ScrollableCardRow>
+                                {privateInfo.districtsInHand.map(d => (
+                                    <Card
+                                        key={d.id}
+                                        card={d}
+                                        small
+                                        canBuild={canBuild}
+                                        className="card"
+                                        onBuild={() => {
+                                            buildDistrict({
+                                                gameId: gameState.id,
+                                                districtId: d.id,
+                                                characterId: gameState.characterTurnId,
+                                            });
+                                            setCanBuild(false);
+                                        }}
+                                    />
+                                ))}
+                            </ScrollableCardRow>
+                        </div>
+                        <div className="celda">
+                            <div className="grid grid-cols-1 gap-3 controls">
+                                <button
+                                    disabled={!isPlayerTurn}
+                                    onClick={() => setCanBuild(!canBuild)}
+                                    className="btn-action"
+                                >
+                                    Comprar distrito
+                                </button>
+                                <button
+                                    disabled={!canUseCharacterHability}
+                                    onClick={() => setShowCharacterHability(true)}
+                                    className="btn-action"
+                                >
+                                    Habilidad personaje
+                                </button>
+                                <button
+                                    disabled={!isPlayerTurn}
+                                    onClick={nextStep}
+                                    className="btn-action"
+                                >
+                                    Terminar turno
+                                </button>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>

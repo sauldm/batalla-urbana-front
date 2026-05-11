@@ -54,6 +54,7 @@ export default function ScrollableCardRow({ children }) {
             <div
                 ref={rowRef}
                 className="card-row flex gap-4 overflow-x-auto scroll-smooth no-scrollbar flex-1 px-2"
+                style={{ justifyContent: "safe center" }}
             >
                 {children}
             </div>
