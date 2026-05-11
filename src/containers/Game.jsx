@@ -8,6 +8,7 @@ import GameEventManager from "../services/GameEventManager";
 import { useGame } from "../providers/GameProvider";
 import CharacterHabilityManager from "../services/CharacterHabilityManager";
 import ScrollableCardRow from "../components/ScrollableCardRow";
+import CharacterCardStack from "../components/CharacterCardStack";
 import { useNavigate } from "react-router-dom";
 
 /**
@@ -229,10 +230,11 @@ const Game = () => {
                                 {index === 1 && getEnemyDistrictsInHand()}
 
                                 {index === 2 && (
-                                    <div className="flex gap-2 justify-center items-center card-row">
-                                        {enemy.characterCardsPlayed.map(c => (
-                                            <Card key={c.id} card={c} />
-                                        ))}
+                                    <div className="flex items-center justify-center h-full">
+                                        <CharacterCardStack
+                                            cards={enemy.characterCardsPlayed}
+                                            characterTurnId={gameState.characterTurnId}
+                                        />
                                     </div>
                                 )}
 
@@ -268,10 +270,11 @@ const Game = () => {
 
 
                                 {index === 9 && (
-                                    <div className="flex gap-4 flex-wrap justify-center card-row">
-                                        {privateInfo.characterCards.map(c => (
-                                            <Card key={c.id} card={c} className="card" />
-                                        ))}
+                                    <div className="flex items-center justify-center h-full">
+                                        <CharacterCardStack
+                                            cards={privateInfo.characterCards}
+                                            characterTurnId={gameState.characterTurnId}
+                                        />
                                     </div>
                                 )}
 

@@ -3,17 +3,24 @@ import { useState } from "react";
 
 // ── Imágenes de personaje ──────────────────────────────────────────────────
 import asesinoImg     from "../utils/images/verdugo.png";
-import gobernadorImg  from "../utils/images/gobernador.png";
+import ladronImg      from "../utils/images/ladron.png";
 import ilusionistaImg from "../utils/images/ilusionista.png";
+import gobernadorImg  from "../utils/images/gobernador.png";
+import inquisidorImg  from "../utils/images/inquisidor.png";
 import mercaderImg    from "../utils/images/mercader.png";
+import forjadorImg    from "../utils/images/forjador.png";
+import conquistadorImg from "../utils/images/conquistador.png";
 
 // Mapa id de personaje → imagen
-// Solo los 4 personajes que tienen foto asignada
 const CHARACTER_IMAGES = {
-  1: asesinoImg,     // Verdugo
-  3: ilusionistaImg, // Mago / Ilusionista
-  4: gobernadorImg,  // Gobernador / Rey
-  6: mercaderImg,    // Mercader
+  1: asesinoImg,      // Verdugo
+  2: ladronImg,       // Ladrón
+  3: ilusionistaImg,  // Mago / Ilusionista
+  4: gobernadorImg,   // Rey / Gobernador
+  5: inquisidorImg,   // Inquisidor
+  6: mercaderImg,     // Mercader
+  7: forjadorImg,     // Arquitecto
+  8: conquistadorImg, // Militar
 };
 
 // ── Paleta por color de distrito ──────────────────────────────────────────
@@ -59,7 +66,7 @@ function CornerOrbs({ color }) {
 }
 
 // ── Tamaño compartido ──────────────────────────────────────────────────────
-const SIZE_CLASSES = "w-[88px] h-[128px] tablet:w-[100px] tablet:h-[148px]";
+const SIZE_CLASSES = "w-[112px] h-[164px] tablet:w-[130px] tablet:h-[190px]";
 const HOVER_CLASSES = "transition-transform duration-200 hover:scale-105 hover:-translate-y-1";
 
 // Franja de color por tipo de personaje (color de la carta)
@@ -73,7 +80,7 @@ const CHARACTER_COLOR_STRIP = {
 };
 
 // ── Carta de PERSONAJE — imagen a pantalla completa ────────────────────────
-function CharacterCardView({ card, theme, canBuild, onBuild, className }) {
+function CharacterCardView({ card, theme, canBuild, onBuild, isCurrentTurn, className }) {
   const img = CHARACTER_IMAGES[card.id];
   const strip = CHARACTER_COLOR_STRIP[card.color] ?? CHARACTER_COLOR_STRIP[0];
 
@@ -87,6 +94,7 @@ function CharacterCardView({ card, theme, canBuild, onBuild, className }) {
           ? "cursor-pointer ring-2 ring-yellow-400 shadow-[0_0_18px_rgba(250,204,21,0.55)]"
           : "cursor-default"
         }
+        ${isCurrentTurn ? "ring-2 ring-white shadow-[0_0_14px_rgba(255,255,255,0.6)]" : ""}
         ${className}
       `}
     >
