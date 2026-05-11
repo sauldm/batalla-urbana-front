@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Card from "../models/Card";
 
-export default function CharacterCardStack({ cards, characterTurnId }) {
+export default function CharacterCardStack({ cards, characterTurnId, label = "Tus personajes" }) {
   const [open, setOpen] = useState(false);
 
   if (!cards?.length) return null;
@@ -41,7 +41,7 @@ export default function CharacterCardStack({ cards, characterTurnId }) {
             onClick={e => e.stopPropagation()}
           >
             <span className="text-white text-xs uppercase tracking-widest opacity-50">
-              Tus personajes
+              {label}
             </span>
             <div className="flex gap-10 items-center justify-center">
               {cards.map(c => (

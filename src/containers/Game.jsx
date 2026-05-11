@@ -234,6 +234,7 @@ const Game = () => {
                                         <CharacterCardStack
                                             cards={enemy.characterCardsPlayed}
                                             characterTurnId={gameState.characterTurnId}
+                                            label="Cartas jugadas por el enemigo"
                                         />
                                     </div>
                                 )}
@@ -241,10 +242,9 @@ const Game = () => {
                                 {index === 4 && (
                                     <ScrollableCardRow>
                                         {enemy?.districtsBuilt.map(d => (
-                                            <Card key={d.id} card={d} />
+                                            <Card key={d.id} card={d} small />
                                         ))}
                                     </ScrollableCardRow>
-
                                 )}
 
                                 {index === 3 && (

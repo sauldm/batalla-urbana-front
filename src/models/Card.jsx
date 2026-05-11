@@ -66,7 +66,8 @@ function CornerOrbs({ color }) {
 }
 
 // ── Tamaño compartido ──────────────────────────────────────────────────────
-const SIZE_CLASSES = "w-[112px] h-[164px] tablet:w-[130px] tablet:h-[190px]";
+const SIZE_CLASSES      = "w-[112px] h-[164px] tablet:w-[130px] tablet:h-[190px]";
+const SIZE_CLASSES_SMALL = "w-[70px]  h-[102px] tablet:w-[82px]  tablet:h-[120px]";
 const HOVER_CLASSES = "transition-transform duration-200 hover:scale-105 hover:-translate-y-1";
 
 // Franja de color por tipo de personaje (color de la carta)
@@ -80,7 +81,7 @@ const CHARACTER_COLOR_STRIP = {
 };
 
 // ── Carta de PERSONAJE — imagen a pantalla completa ────────────────────────
-function CharacterCardView({ card, theme, canBuild, onBuild, isCurrentTurn, className }) {
+function CharacterCardView({ card, theme, canBuild, onBuild, isCurrentTurn, small, className }) {
   const img = CHARACTER_IMAGES[card.id];
   const strip = CHARACTER_COLOR_STRIP[card.color] ?? CHARACTER_COLOR_STRIP[0];
 
@@ -89,7 +90,7 @@ function CharacterCardView({ card, theme, canBuild, onBuild, isCurrentTurn, clas
       onClick={(e) => { e.stopPropagation(); if (canBuild) onBuild?.(); }}
       className={`
         card-visual relative flex-shrink-0 rounded-xl overflow-hidden select-none
-        ${SIZE_CLASSES} ${HOVER_CLASSES}
+        ${small ? SIZE_CLASSES_SMALL : SIZE_CLASSES} ${HOVER_CLASSES}
         ${canBuild
           ? "cursor-pointer ring-2 ring-yellow-400 shadow-[0_0_18px_rgba(250,204,21,0.55)]"
           : "cursor-default"
@@ -156,7 +157,7 @@ function CharacterCardView({ card, theme, canBuild, onBuild, isCurrentTurn, clas
 }
 
 // ── Carta de DISTRITO — diseño con gradiente e icono ───────────────────────
-function DistrictCardView({ card, theme, canBuild, onBuild, isBuilt, executeDistrictHability, gameId, districtHabilityUsed, isPlayerTurn, className }) {
+function DistrictCardView({ card, theme, canBuild, onBuild, isBuilt, executeDistrictHability, gameId, districtHabilityUsed, isPlayerTurn, small, className }) {
   const [showHability, setShowHability] = useState(false);
 
   if (showHability) {
@@ -175,7 +176,7 @@ function DistrictCardView({ card, theme, canBuild, onBuild, isBuilt, executeDist
       onClick={(e) => { e.stopPropagation(); if (canBuild) onBuild?.(); }}
       className={`
         card-visual relative flex-shrink-0 rounded-xl overflow-hidden select-none
-        ${SIZE_CLASSES}
+        ${small ? SIZE_CLASSES_SMALL : SIZE_CLASSES}
         ${canBuild
           ? `cursor-pointer ring-2 ring-yellow-400 shadow-[0_0_18px_rgba(250,204,21,0.55)] ${HOVER_CLASSES}`
           : "cursor-default"
