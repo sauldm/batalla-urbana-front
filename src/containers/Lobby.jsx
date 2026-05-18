@@ -75,7 +75,7 @@ const Lobby = () => {
             </section>
 
             <section className="container mx-auto px-4 py-16">
-                <div className="rounded-xl border border-border bg-card p-6 space-y-3">
+                <div className="rounded-xl border border-game-highlight/40 bg-game-panel p-6 space-y-3">
                     <h3>JUGADORES EN EL LOBBY</h3>
                     <p>ID del lobby: {lobbyId}</p>
                     <p>Estado: {connected ? "Conectado" : "Desconectado"}</p>

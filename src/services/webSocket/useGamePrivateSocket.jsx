@@ -24,6 +24,7 @@ export function useGamePrivateSocket(gameId) {
             `/user/queue/game/${gameId}`,
             (message) => {
                 setPrivateInfo(JSON.parse(message.body));
+                console.log(JSON.parse(message.body))
             }
         );
         publish(`/app/game/${gameId}/private`, {});

@@ -18,7 +18,7 @@
   }
 
   body {
-    @apply bg-game-back text-game-text-main font-body;
+    @apply bg-game-bg text-game-text-board font-body;
   }
 
   h1 {
@@ -30,31 +30,58 @@
   }
 
   h3 {
-    @apply font-title text-[20px] text-game-text-secondary;
+    @apply font-title text-[20px] text-game-text-title;
   }
 
   p {
-    @apply font-body text-paragraph text-game-text-secondary;
+    @apply font-body text-paragraph text-game-text-board;
   }
 
   button {
-    @apply rounded-lg font-body text-button bg-game-highlight text-game-text-inverse shadow-md transition-all duration-150 px-4 py-2;
+    @apply rounded-md font-body text-button transition-all duration-150 px-4 py-2 cursor-pointer;
+    background: linear-gradient(to bottom, #C09060, #8B6540);
+    color: #F5EBD7;
+    border: 1px solid #6B4C2A;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,220,150,0.12);
+    letter-spacing: 0.02em;
   }
 
   button:hover {
-    @apply brightness-90 ring-2 ring-game-highlight;
+    background: linear-gradient(to bottom, #D0A878, #9B7550);
+    border-color: #9B7550;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,220,150,0.2);
   }
 
   button:active {
-    @apply shadow-sm translate-y-0.5;
+    background: linear-gradient(to bottom, #7A5535, #6B4C2A);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.4), inset 0 2px 3px rgba(0,0,0,0.3);
+    @apply translate-y-0.5;
   }
 
   button:disabled {
-    @apply opacity-50 cursor-not-allowed brightness-75;
+    opacity: 0.35;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+
+  select {
+    @apply rounded-md border border-game-highlight/40 px-3 py-2 font-body cursor-pointer;
+    background-color: #3B3026;
+    color: #F5EBD7;
+  }
+
+  select:focus {
+    @apply outline-none ring-2 ring-game-highlight;
+  }
+
+  option {
+    background-color: #3B3026;
+    color: #F5EBD7;
   }
 
   .card {
-    @apply bg-game-board rounded-md shadow-md border border-black/20 transition-all duration-200;
+    @apply bg-game-back rounded-md shadow-md border border-game-highlight/30 transition-all duration-200;
   }
 
   .card:hover {
@@ -62,7 +89,7 @@
   }
 
   .modal-backdrop {
-    @apply fixed inset-0 bg-black/50 z-40;
+    @apply fixed inset-0 bg-black/60 z-40;
   }
 
   .modal {
@@ -70,7 +97,7 @@
   }
 
   .modal-content {
-    @apply bg-game-back border-2 border-game-board rounded-xl shadow-2xl p-6 max-w-md w-full;
+    @apply bg-game-modal border-2 border-game-highlight/50 rounded-xl shadow-2xl p-6 max-w-md w-full;
   }
 
   .layout {
@@ -124,33 +151,26 @@
   /* MOBILE: < 768px */
   @media (max-width: 767px) {
     .tablero {
-      grid-template-columns: repeat(3, 1fr);
-      grid-auto-rows: minmax(48px, 1fr);
-      gap: 6px;
-      padding: 8px;
-      /* tighter max height on small screens and allow inner scroll */
-      max-height: calc(100vh - 160px);
-      overflow-y: auto;
+      grid-template-columns: 2fr 3fr 2fr;
+      grid-template-rows: repeat(4, minmax(0, 1fr));
+      gap: 4px;
+      padding: 4px;
     }
 
     .celda {
-      padding: 6px;
-      min-height: 48px;
-      align-items: flex-start;
-      justify-content: center;
-    }
-
-    .imagen-centro {
-      width: 70%;
-      height: auto;
-      max-height: 40vh;
+      padding: 3px;
     }
 
     .player-hand {
-      gap: 8px;
-      padding: 0 4px;
-      max-height: 120px;
-      overflow-x: auto;
+      gap: 4px;
+      padding: 0 2px;
+    }
+  }
+
+  /* Escala automática del stack de personajes en celdas estrechas */
+  @container (max-width: 110px) {
+    .character-stack {
+      zoom: 0.64;
     }
   }
 
