@@ -1,6 +1,6 @@
 const Footer = () => {
     return (
-        <footer className="border-t border-border bg-game-board">
+        <footer className="border-t-2 border-game-highlight/40 bg-game-modal">
             <div className="container mx-auto px-4 py-12">
                 <h2>Reglas Rápidas</h2>
                 <ul>

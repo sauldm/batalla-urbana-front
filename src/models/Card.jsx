@@ -1,6 +1,7 @@
 import TakeThree from "./charactermodal/TakeThree";
 import { useState } from "react";
 import divitia from "../utils/images/divitia.png";
+import distritoImg from "../utils/images/distrito.png";
 
 // ── Imágenes de personaje ──────────────────────────────────────────────────
 import asesinoImg     from "../utils/images/verdugo.png";
@@ -23,6 +24,13 @@ const CHARACTER_IMAGES = {
   7: forjadorImg,     // Arquitecto
   8: conquistadorImg, // Militar
 };
+
+// ── Descripción de habilidades de distritos especiales (por card.id) ────────
+const DISTRICT_DESCRIPTIONS = {
+  // Añade aquí: [id]: "descripción de la habilidad"
+  // Ejemplo: 25: "Intercambia 2 💰 por robar 3 cartas de la reserva."
+};
+const DEFAULT_SPECIAL_DESC = "Intercambia 2 💰 por robar 3 cartas de la reserva.";
 
 // ── Paleta por color de distrito ──────────────────────────────────────────
 const CARD_THEMES = {
@@ -53,18 +61,6 @@ const PatternSVG = ({ pattern }) => {
   );
 };
 
-// ── Adorno de esquinas ─────────────────────────────────────────────────────
-function CornerOrbs({ color }) {
-  const s = { width: 5, height: 5, borderRadius: 1, background: `${color}99`, position: "absolute" };
-  return (
-    <>
-      <div style={{ ...s, top: 5, left: 5 }} />
-      <div style={{ ...s, top: 5, right: 5 }} />
-      <div style={{ ...s, bottom: 5, left: 5 }} />
-      <div style={{ ...s, bottom: 5, right: 5 }} />
-    </>
-  );
-}
 
 // ── Tamaño compartido ──────────────────────────────────────────────────────
 const SIZE_CLASSES       = "w-[112px] h-[164px] tablet:w-[130px] tablet:h-[190px]";
@@ -101,50 +97,16 @@ function CharacterCardView({ card, theme, canBuild, onBuild, isCurrentTurn, smal
         ${className}
       `}
     >
-      {/* ── Imagen ocupa TODO el div, sin texto encima ── */}
+      {/* Retrato */}
       {img
         ? <img src={img} alt={card.name} className="absolute inset-0 w-full h-full object-cover object-center" draggable={false} />
         : <div className={`absolute inset-0 bg-gradient-to-b ${theme.bg}`} />
       }
 
-      {/* Borde interior sutil */}
+      {/* Marco de color del tipo */}
       <div
-        className="absolute inset-[2px] rounded-[10px] pointer-events-none"
-        style={{ border: `1px solid ${strip.color}44` }}
-      />
-
-      {/* ── Identificador de color: franja lateral izquierda + punto ── */}
-      {/* Franja vertical izquierda */}
-      <div
-        className="absolute top-0 left-0 bottom-0 w-[5px] z-20"
-        style={{
-          background: `linear-gradient(to bottom, ${strip.color}ff, ${strip.color}99, ${strip.color}ff)`,
-          boxShadow: `2px 0 8px ${strip.color}88`,
-        }}
-      />
-
-      {/* Punto brillante en la franja (arriba) */}
-      <div
-        className="absolute top-2 left-[2.5px] z-30 -translate-x-1/2"
-        style={{
-          width: 8,
-          height: 8,
-          borderRadius: "50%",
-          background: strip.color,
-          boxShadow: `0 0 6px 2px ${strip.color}cc`,
-        }}
-      />
-
-      {/* Punto brillante en la franja (abajo) */}
-      <div
-        className="absolute bottom-2 left-[2.5px] z-30 -translate-x-1/2"
-        style={{
-          width: 8,
-          height: 8,
-          borderRadius: "50%",
-          background: strip.color,
-          boxShadow: `0 0 6px 2px ${strip.color}cc`,
-        }}
+        className="absolute inset-0 pointer-events-none z-10 rounded-xl"
+        style={{ boxShadow: `inset 0 0 22px 6px ${strip.color}bb` }}
       />
 
       {/* Pulso dorado cuando es construible */}
@@ -159,8 +121,11 @@ function CharacterCardView({ card, theme, canBuild, onBuild, isCurrentTurn, smal
 }
 
 // ── Carta de DISTRITO — diseño con gradiente e icono ───────────────────────
-function DistrictCardView({ card, theme, canBuild, onBuild, isBuilt, executeDistrictHability, gameId, districtHabilityUsed, isPlayerTurn, small, fluid, className }) {
+function DistrictCardView({ card, theme, canBuild, onBuild, isBuilt, executeDistrictHability, gameId, districtHabilityUsed, isPlayerTurn, isEnemy, small, fluid, className }) {
   const [showHability, setShowHability] = useState(false);
+  const [showInfo, setShowInfo] = useState(false);
+
+  const description = DISTRICT_DESCRIPTIONS[card.id] ?? DEFAULT_SPECIAL_DESC;
 
   return (
     <>
@@ -172,77 +137,97 @@ function DistrictCardView({ card, theme, canBuild, onBuild, isBuilt, executeDist
         gameId={gameId}
       />
     )}
+    {showInfo && (
+      <div
+        className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm"
+        onClick={() => setShowInfo(false)}
+      >
+        <div
+          className="flex flex-col items-center gap-4 p-8 rounded-2xl bg-gray-900 border border-purple-500/40 shadow-[0_0_30px_rgba(192,132,252,0.3)] max-w-xs text-center"
+          onClick={e => e.stopPropagation()}
+        >
+          <p className="text-purple-300 text-lg font-bold tracking-wide">{card.name}</p>
+          <p className="text-[11px] font-bold uppercase tracking-wider opacity-60 text-white">{theme.label}</p>
+          <p className="text-white text-base">{description}</p>
+          <button
+            onClick={() => setShowInfo(false)}
+            className="px-6 py-2 rounded-xl font-bold text-white bg-white/10 hover:bg-white/20"
+          >
+            Cerrar
+          </button>
+        </div>
+      </div>
+    )}
     <div
-      onClick={(e) => { e.stopPropagation(); if (canBuild) onBuild?.(); }}
+      onClick={(e) => {
+        e.stopPropagation();
+        if (canBuild) { onBuild?.(); return; }
+        if (card.color === 5 && isEnemy) setShowInfo(true);
+      }}
       className={`
         card-visual relative flex-shrink-0 rounded-xl overflow-hidden select-none
         ${fluid ? SIZE_CLASSES_FLUID : small ? SIZE_CLASSES_SMALL : SIZE_CLASSES}
         ${canBuild
           ? `cursor-pointer ring-2 ring-yellow-400 shadow-[0_0_18px_rgba(250,204,21,0.55)] ${HOVER_CLASSES}`
-          : "cursor-default"
+          : card.color === 5 && isEnemy ? "cursor-pointer" : "cursor-default"
         }
         ${className}
       `}
     >
-      <div className={`absolute inset-0 bg-gradient-to-b ${theme.bg}`} />
-      <PatternSVG pattern={theme.pattern} />
-      <div className="absolute inset-[2px] rounded-[10px] pointer-events-none" style={{ border: `1px solid ${theme.border}33` }} />
-      <CornerOrbs color={theme.border} />
+      {/* Imagen a pantalla completa */}
+      <img src={distritoImg} alt="distrito" className="absolute inset-0 w-full h-full object-cover object-center" draggable={false} />
 
-      <div className="relative z-10 flex flex-col h-full px-2 pt-2 pb-1">
+      {/* Degradado inferior para legibilidad del texto */}
+      <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, transparent 40%, transparent 55%, rgba(0,0,0,0.75) 100%)" }} />
 
-        {/* Cabecera: label + coste */}
-        <div className="flex justify-between items-start mb-1">
-          <span className="text-[9px] font-bold uppercase tracking-wider opacity-60 text-white leading-none">
-            {theme.label}
+      {/* Marco de color del tipo */}
+      <div
+        className="absolute inset-0 pointer-events-none z-10 rounded-xl"
+        style={{ boxShadow: `inset 0 0 22px 6px ${theme.border}bb` }}
+      />
+
+      {/* Precio — esquina superior derecha */}
+      {card.gold > 0 && (
+        <div className="absolute top-1.5 right-1.5 z-30">
+          <span
+            className="text-[11px] font-black leading-none px-1.5 py-0.5 rounded-md flex items-center gap-0.5"
+            style={{ background: "rgba(0,0,0,0.65)", color: "#fbbf24", border: "1px solid rgba(251,191,36,0.45)" }}
+          >
+            <img src={divitia} alt="oro" className="inline w-3 h-3" />{card.gold}
           </span>
-          {card.gold > 0 && (
-            <span
-              className="text-[11px] font-black leading-none px-1.5 py-0.5 rounded-md"
-              style={{ background: "rgba(0,0,0,0.45)", color: "#fbbf24", border: "1px solid rgba(251,191,36,0.4)" }}
-            >
-              <img src={divitia} alt="oro" className="inline w-3 h-3 mr-0.5" />{card.gold}
-            </span>
-          )}
         </div>
+      )}
 
-        {/* Icono central con halo */}
-        <div className="flex-1 flex items-center justify-center">
-          <div
-            className="w-10 h-10 tablet:w-12 tablet:h-12 rounded-full flex items-center justify-center text-xl tablet:text-2xl"
-            style={{
-              background: `radial-gradient(circle, ${theme.glow} 0%, transparent 70%)`,
-              boxShadow: `0 0 16px ${theme.glow}`,
-              border: `1px solid ${theme.border}66`,
-            }}
-          >
-            {theme.icon}
-          </div>
-        </div>
+      {/* Placa de nombre — estilo pergamino */}
+      <div
+        className="absolute bottom-0 left-0 right-0 z-30 px-2 pb-1.5 pt-1"
+        style={{
+          background: "linear-gradient(to top, rgba(10,6,2,0.92), rgba(10,6,2,0.65))",
+          borderTop: `1px solid ${theme.border}55`,
+        }}
+      >
+        <p
+          className="text-white font-bold text-center leading-tight"
+          style={{
+            fontSize: "clamp(8px, 1.8vw, 11px)",
+            textShadow: `0 0 6px ${theme.border}99, 0 1px 3px rgba(0,0,0,1)`,
+            display: "-webkit-box",
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
+          }}
+        >
+          {card.name}
+        </p>
+      </div>
 
-        {/* Nombre */}
-        <div className="text-center mt-1 px-1 py-0.5 rounded-md" style={{ background: "rgba(0,0,0,0.5)" }}>
-          <p
-            className="text-white font-bold leading-tight"
-            style={{
-              fontSize: "clamp(8px, 1.8vw, 11px)",
-              textShadow: `0 0 8px ${theme.border}`,
-              display: "-webkit-box",
-              WebkitLineClamp: 2,
-              WebkitBoxOrient: "vertical",
-              overflow: "hidden",
-            }}
-          >
-            {card.name}
-          </p>
-        </div>
-
-        {/* Botón habilidad distritos especiales */}
-        {card.color === 5 && isBuilt && isPlayerTurn && (
+      {/* Botón habilidad distritos especiales */}
+      {card.color === 5 && isBuilt && isPlayerTurn && (
+        <div className="absolute bottom-7 left-0 right-0 z-30 px-1.5">
           <button
             disabled={districtHabilityUsed}
             onClick={(e) => { e.stopPropagation(); if (!districtHabilityUsed) setShowHability(true); }}
-            className="mt-1 w-full text-[9px] py-0.5 rounded font-bold tracking-wide"
+            className="w-full text-[9px] py-0.5 rounded font-bold tracking-wide"
             style={{
               background: districtHabilityUsed ? "rgba(60,60,60,0.7)" : `linear-gradient(135deg, ${theme.border}99, ${theme.border}44)`,
               border: `1px solid ${districtHabilityUsed ? "rgba(255,255,255,0.1)" : theme.border + "88"}`,
@@ -253,8 +238,8 @@ function DistrictCardView({ card, theme, canBuild, onBuild, isBuilt, executeDist
           >
             {districtHabilityUsed ? "✦ Usada" : "✦ Habilidad"}
           </button>
-        )}
-      </div>
+        </div>
+      )}
 
       {canBuild && (
         <div

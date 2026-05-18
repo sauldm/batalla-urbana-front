@@ -8,6 +8,7 @@ import GameEventManager from "../services/GameEventManager";
 import { useGame } from "../providers/GameProvider";
 import CharacterHabilityManager from "../services/CharacterHabilityManager";
 import ScrollableCardRow from "../components/ScrollableCardRow";
+import BuiltDistrictsGrid from "../components/BuiltDistrictsGrid";
 import CharacterCardStack from "../components/CharacterCardStack";
 import { useNavigate } from "react-router-dom";
 
@@ -134,15 +135,15 @@ const Game = () => {
 
     if (gameEnded) {
         return (
-            <div className="min-h-screen flex flex-col items-center bg-gray-900 text-white p-6">
-                <h1 className="text-3xl font-bold mb-6">Clasificación Final</h1>
+            <div className="min-h-screen flex flex-col items-center bg-game-back p-6">
+                <h1 className="mb-6">Clasificación Final</h1>
 
-                <table className="w-full max-w-xl border border-gray-700 rounded-lg overflow-hidden">
-                    <thead className="bg-gray-800">
+                <table className="w-full max-w-xl border border-game-highlight/40 rounded-lg overflow-hidden">
+                    <thead className="bg-game-olive">
                         <tr>
-                            <th className="px-4 py-2 text-left">Posición</th>
-                            <th className="px-4 py-2 text-left">Jugador</th>
-                            <th className="px-4 py-2 text-right">Puntos</th>
+                            <th className="px-4 py-2 text-left text-game-text-inverse">Posición</th>
+                            <th className="px-4 py-2 text-left text-game-text-inverse">Jugador</th>
+                            <th className="px-4 py-2 text-right text-game-text-inverse">Puntos</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -151,20 +152,17 @@ const Game = () => {
                             .map((player, index) => (
                                 <tr
                                     key={player.nickName}
-                                    className={index === 0 ? "bg-yellow-700 font-bold" : "bg-gray-800"}
+                                    className={index === 0 ? "bg-game-highlight font-bold" : "bg-game-board"}
                                 >
-                                    <td className="px-4 py-2">{index + 1}</td>
-                                    <td className="px-4 py-2">{player.nickName}</td>
-                                    <td className="px-4 py-2 text-right">{player.points}</td>
+                                    <td className="px-4 py-2 text-game-text-main">{index + 1}</td>
+                                    <td className="px-4 py-2 text-game-text-main">{player.nickName}</td>
+                                    <td className="px-4 py-2 text-right text-game-text-main">{player.points}</td>
                                 </tr>
                             ))}
                     </tbody>
                 </table>
 
-                <button
-                    onClick={() => navigate("/ranking")}
-                    className="mt-8 px-6 py-2 bg-blue-600 hover:bg-blue-700 rounded"
-                >
+                <button onClick={() => navigate("/ranking")} className="mt-8">
                     Continuar
                 </button>
             </div>
@@ -180,7 +178,7 @@ const Game = () => {
 
     return (
         <div className="w-screen h-screen bg-game-bg overflow-hidden parent-perspective">
-            <div className="w-full h-dvh px-4 pt-4 pb-6 md:px-6 md:pt-6 md:pb-8 flex flex-col">
+            <div className="w-full h-dvh px-2 pt-2 pb-2 tablet:px-4 tablet:pt-4 tablet:pb-6 flex flex-col">
 
                 <GameEventManager
                     events={events}
@@ -202,17 +200,15 @@ const Game = () => {
                         enemy={enemy}
                     />
                 )}
-                <div className="grid grid-cols-1 tablet:grid-cols-3 items-center gap-2">
-                    <h2 className="text-white text-left flex items-center gap-2">
-                        <img src={divitia} alt="oro" className="w-8 h-8" />
-                        <span className="text-xl font-black leading-none">{player.gold}</span>
+                <div className="flex items-center justify-between gap-1 tablet:grid tablet:grid-cols-3 tablet:gap-2 py-1">
+                    <h2 className="text-white flex items-center gap-1 shrink-0">
+                        <img src={divitia} alt="oro" className="w-5 h-5 tablet:w-8 tablet:h-8" />
+                        <span className="text-base tablet:text-xl font-black leading-none">{player.gold}</span>
                     </h2>
-
-                    <h3 className="text-white text-center">
+                    <h3 className="text-white text-center text-sm tablet:text-base flex-1 tablet:flex-none truncate px-1">
                         {player.nickName}
                     </h3>
-
-                    <h3 className="text-white text-right">
+                    <h3 className="text-white text-right text-sm tablet:text-base truncate shrink-0">
                         {characterTurn?.name}
                     </h3>
                 </div>
@@ -227,26 +223,26 @@ const Game = () => {
                     <div className="tablero">
 
                         {/* Fila 1 */}
-                        <div className="celda flex flex-col items-center justify-center gap-3">
-                            <div className="flex flex-col items-center gap-0.5">
-                                <span className="text-white/50 text-xs uppercase tracking-widest">Nombre</span>
-                                <span className="text-white font-bold text-sm truncate max-w-full px-1">{enemy.nickName}</span>
+                        <div className="celda flex flex-col items-center justify-center gap-1 tablet:gap-3">
+                            <div className="flex flex-col items-center gap-0">
+                                <span className="text-white/50 text-[10px] tablet:text-xs uppercase tracking-widest">Nombre</span>
+                                <span className="text-white font-bold text-xs tablet:text-sm truncate max-w-full">{enemy.nickName}</span>
                             </div>
-                            <div className="flex flex-col items-center gap-0.5">
-                                <span className="text-white/50 text-xs uppercase tracking-widest">Oro</span>
-                                <div className="flex items-center gap-2">
-                                    <img src={divitia} alt="oro" className="w-10 h-10" style={{ filter: "drop-shadow(0 0 6px rgba(251,191,36,0.8))" }} />
-                                    <span className="text-yellow-300 text-2xl font-black leading-none">{enemy.gold}</span>
+                            <div className="flex flex-col items-center gap-0">
+                                <span className="text-white/50 text-[10px] tablet:text-xs uppercase tracking-widest">Oro</span>
+                                <div className="flex items-center gap-1">
+                                    <img src={divitia} alt="oro" className="w-5 h-5 tablet:w-10 tablet:h-10" style={{ filter: "drop-shadow(0 0 6px rgba(251,191,36,0.8))" }} />
+                                    <span className="text-yellow-300 text-base tablet:text-2xl font-black leading-none">{enemy.gold}</span>
                                 </div>
                             </div>
-                            <div className="flex flex-col items-center gap-0.5">
-                                <span className="text-white/50 text-xs uppercase tracking-widest">Cartas</span>
-                                <span className="text-white text-xl font-black">{enemy.numberDistrictsInHand}</span>
+                            <div className="flex flex-col items-center gap-0">
+                                <span className="text-white/50 text-[10px] tablet:text-xs uppercase tracking-widest">Cartas</span>
+                                <span className="text-white text-base tablet:text-xl font-black">{enemy.numberDistrictsInHand}</span>
                             </div>
                         </div>
                         <div className="celda">{getEnemyDistrictsInHand()}</div>
                         <div className="celda">
-                            <div className="flex items-center justify-center h-full">
+                            <div className="character-stack flex items-center justify-center h-full">
                                 <CharacterCardStack
                                     cards={enemy.characterCardsPlayed}
                                     characterTurnId={gameState.characterTurnId}
@@ -257,16 +253,16 @@ const Game = () => {
 
                         {/* Fila 2: distritos comprados enemigo — ancho completo */}
                         <div className="celda" style={{ gridColumn: "1 / -1" }}>
-                            <ScrollableCardRow>
+                            <BuiltDistrictsGrid>
                                 {enemy?.districtsBuilt.map(d => (
-                                    <Card key={d.id} card={d} small />
+                                    <Card key={d.id} card={d} small isEnemy />
                                 ))}
-                            </ScrollableCardRow>
+                            </BuiltDistrictsGrid>
                         </div>
 
                         {/* Fila 3: distritos comprados jugador — ancho completo */}
                         <div className="celda" style={{ gridColumn: "1 / -1" }}>
-                            <ScrollableCardRow>
+                            <BuiltDistrictsGrid>
                                 {player.districtsBuilt.map(d => (
                                     <Card
                                         key={d.id}
@@ -279,12 +275,12 @@ const Game = () => {
                                         isPlayerTurn={isPlayerTurn}
                                     />
                                 ))}
-                            </ScrollableCardRow>
+                            </BuiltDistrictsGrid>
                         </div>
 
                         {/* Fila 4 */}
                         <div className="celda">
-                            <div className="flex items-center justify-center h-full">
+                            <div className="character-stack flex items-center justify-center h-full">
                                 <CharacterCardStack
                                     cards={privateInfo.characterCards}
                                     characterTurnId={gameState.characterTurnId}

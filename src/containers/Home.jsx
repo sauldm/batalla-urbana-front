@@ -5,6 +5,7 @@ import Layout from "../components/layout/Layout";
 import { useSocket } from "../services/webSocket/socketProvider";
 import { createLobbyHttp, joinLobbyHttp } from "../services/api/lobbyApi";
 import { useLobbySocket } from "../services/webSocket/useLobbySocket";
+import RankingsModal from "../components/modal/RankingsModal";
 
 /**
  * Página principal de la aplicación donde el usuario puede crear o unirse a lobbies.
@@ -22,6 +23,7 @@ export default function Home() {
   const { lobbies } = useLobbySocket(null);
 
   const [selected, setSelected] = useState("");
+  const [showRankings, setShowRankings] = useState(false);
   const canJoin = useMemo(() => Boolean(selected), [selected]);
 
   /**
@@ -73,19 +75,22 @@ export default function Home() {
       <section className="container mx-auto px-4 py-10">
         <div className="max-w-4xl mx-auto space-y-8">
           <div className="text-center space-y-2">
-            <h1 className="text-3xl md:text-4xl font-semibold tracking-tight">
-              Batalla Urbana
-            </h1>
             <p className="text-base md:text-lg opacity-80">
               Bienvenido, <span className="font-semibold">{nick}</span>. Crea una partida o únete a una existente.
             </p>
             <div className="text-sm opacity-70">
               Estado: {wsConnected ? "Conectado" : "Conectando..."}
             </div>
+            <button
+              onClick={() => setShowRankings(true)}
+              className="mt-4"
+            >
+              Ver Rankings
+            </button>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="rounded-2xl border bg-card p-6 md:p-8 space-y-4 shadow-sm">
+            <div className="rounded-2xl border border-game-highlight/40 bg-game-panel p-6 md:p-8 space-y-4 shadow-sm">
               <div className="space-y-1">
                 <h2 className="text-xl font-semibold">Crear partida</h2>
                 <p className="text-sm opacity-80">
@@ -102,7 +107,7 @@ export default function Home() {
               </button>
             </div>
 
-            <div className="rounded-2xl border bg-card p-6 md:p-8 space-y-4 shadow-sm">
+            <div className="rounded-2xl border border-game-highlight/40 bg-game-panel p-6 md:p-8 space-y-4 shadow-sm">
               <div className="space-y-1">
                 <h2 className="text-xl font-semibold">Unirse a partida</h2>
                 <p className="text-sm opacity-80">
@@ -111,7 +116,7 @@ export default function Home() {
               </div>
 
               {lobbies.length === 0 ? (
-                <div className="rounded-xl border p-4 text-sm opacity-80">
+                <div className="rounded-xl border border-game-highlight/30 bg-game-bg/60 p-4 text-sm opacity-80">
                   {wsConnected ? "No hay lobbies disponibles." : "Cargando lobbies..."}
                 </div>
               ) : (
@@ -147,6 +152,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      <RankingsModal isOpen={showRankings} onClose={() => setShowRankings(false)} />
     </Layout>
   );
 }

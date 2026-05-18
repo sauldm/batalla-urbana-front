@@ -6,7 +6,7 @@ import Footer from "./Footer";
 
 const Layout = ({ children }) => {
   return (
-    <div className="bg-game-back container-game">
+    <div className="bg-game-bg min-h-screen container-game">
       <Header />
       <main className="flex-1">
         {children}

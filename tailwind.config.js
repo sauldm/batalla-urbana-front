@@ -44,28 +44,31 @@ module.exports = {
 
       colors: {
         game: {
-          bg: "#181818",
-          back: "#f7f1e8ff",
-          modal: "#2c2c2bff",
-          board: "#ede3d4",
-          highlight: "#876b4b",
+          bg:        "#2F241B",
+          panel:     "#3B3026",
+          back:      "#DEC290",
+          modal:     "#2A1E15",
+          board:     "#C7AC7D",
+          highlight: "#B38956",
+          accent:    "#6B8AA6",
+          olive:     "#878763",
 
           text: {
-            main: "#2f2418",
-            board: "white",
-            secondary: "#5c4a32",
-            soft: "#7a6648",
-            title: "#3b2a16",
-            inverse: "#f7f1e8",
+            main:      "#2A1E15",
+            board:     "#F5EBD7",
+            secondary: "#8B7355",
+            soft:      "#A08060",
+            title:     "#DEC290",
+            inverse:   "#F5EBD7",
           },
 
           success: "#0BEAA3",
-          danger: "#A30BEA",
+          danger:  "#A30BEA",
         },
       },
 
       fontFamily: {
-        title: ["UnifrakturCook", "cursive"],
+        title: ["Cinzel", "serif"],
         body: ["Quintessential", "serif"],
         mono: ["Roboto Mono", "monospace"],
       },
