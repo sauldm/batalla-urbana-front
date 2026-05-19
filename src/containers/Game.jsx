@@ -89,7 +89,8 @@ const Game = () => {
 
     const mustChoose = isPlayerTurn && !gameState?.turnCompleted;
 
-    const canUseCharacterHability = isPlayerTurn && !gameState?.characterHabilityUsed;
+    const NO_HABILITY_IDS = new Set([4, 5, 6, 7]); // gobernador, inquisidor, mercader, forjador
+    const canUseCharacterHability = isPlayerTurn && !gameState?.characterHabilityUsed && !NO_HABILITY_IDS.has(gameState?.characterTurnId);
 
     useEffect(() => {
         /**

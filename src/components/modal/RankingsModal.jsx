@@ -77,8 +77,7 @@ export default function RankingsModal({ isOpen, onClose }) {
                   <tr className="border-b border-game-highlight/30 text-game-text-title opacity-80">
                     <th className="pb-3 pr-4 font-semibold">Posición</th>
                     <th className="pb-3 pr-4 font-semibold">Nick</th>
-                    <th className="pb-3 pr-4 font-semibold">Victorias</th>
-                    <th className="pb-3 font-semibold">Puntos</th>
+                    <th className="pb-3 font-semibold">Victorias</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -91,8 +90,7 @@ export default function RankingsModal({ isOpen, onClose }) {
                         {index > 2 && `#${index + 1}`}
                       </td>
                       <td className="py-3 pr-4">{player.nickName}</td>
-                      <td className="py-3 pr-4">{player.wins || player.victorias || 0}</td>
-                      <td className="py-3">{player.points || player.puntos || 0}</td>
+                      <td className="py-3">{player.wins || player.victorias || 0}</td>
                     </tr>
                   ))}
                 </tbody>
