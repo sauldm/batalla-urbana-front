@@ -1,19 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Layout from "../components/layout/Layout";
 import { useSocket } from "../services/webSocket/socketProvider";
 import { createGameHttp } from "../services/api/lobbyApi";
 import { useLobby } from "../providers/LobbyProvider";
 
-/**
- * Componente de la sala (lobby) donde los jugadores esperan antes de iniciar la partida.
- *
- * Muestra el ID del lobby, la lista de jugadores conectados y permite al host
- * iniciar la partida cuando hay suficientes jugadores.
- *
- * @component
- * @returns {JSX.Element} Interfaz del lobby
- */
 const Lobby = () => {
     const { id } = useParams();
     const { nick } = useSocket();
@@ -21,31 +12,15 @@ const Lobby = () => {
 
     const { connected, players, unjoinLobby, setLobbyId, lobbyId, game } = useLobby();
 
-
     const lobbyIdRef = useRef(id);
     const nickRef = useRef(nick);
 
-    useEffect(() => {
-        setLobbyId(id);
-    }, [id, setLobbyId]);
+    useEffect(() => { setLobbyId(id); }, [id, setLobbyId]);
 
-
-    /**
-     * Intenta crear una partida en el backend para el lobby actual.
-     *
-     * Comprueba condiciones preclara (conexión, existencia de lobbyId,
-     * número de jugadores y que no exista ya una partida) antes de llamar
-     * a la API `createGameHttp`.
-     *
-     * @async
-     * @returns {Promise<void>} Resuelve cuando la petición finaliza.
-     */
     const handleCreateGame = async () => {
         if (!connected || !lobbyId || players.length !== 2 || game) return;
-
         try {
             await createGameHttp(id, players);
-
         } catch (e) {
             console.error(e);
         }
@@ -61,53 +36,121 @@ const Lobby = () => {
         nickRef.current = nick;
     }, [lobbyId, nick]);
 
-
+    const canStart = connected && players.length === 2 && !game;
 
     return (
         <Layout>
-            <section>
-                <div className="max-w-3xl mx-auto text-center space-y-6">
-                    <h2>
-                        Construye tu ciudad y domina
-                        el reino
-                    </h2>
-                </div>
+            {/* Hero */}
+            <section className="text-center pt-10 pb-8 px-4">
+                <p className="text-game-text-secondary text-sm tracking-[0.25em] uppercase mb-2">
+                    Sala de espera
+                </p>
+                <h1 className="text-5xl md:text-6xl text-game-text-title mb-3">
+                    Batalla Urbana
+                </h1>
+                <p className="text-game-text-secondary text-base opacity-70">
+                    Construye tu ciudad y domina el reino
+                </p>
             </section>
 
-            <section className="container mx-auto px-4 py-16">
-                <div className="rounded-xl border border-game-highlight/40 bg-game-panel p-6 space-y-3">
-                    <h3>JUGADORES EN EL LOBBY</h3>
-                    <p>ID del lobby: {lobbyId}</p>
-                    <p>Estado: {connected ? "Conectado" : "Desconectado"}</p>
+            {/* Separador decorativo */}
+            <div className="flex items-center gap-4 max-w-md mx-auto px-6 mb-10">
+                <div className="flex-1 h-px bg-game-highlight/30" />
+                <div className="w-1.5 h-1.5 rotate-45 bg-game-highlight/60" />
+                <div className="flex-1 h-px bg-game-highlight/30" />
+            </div>
 
-                    {players.length === 0 ? (
-                        <span>No hay jugadores</span>
-                    ) : (
-                        <div>
-                            {players.map((p) => (
-                                <p key={p}>{p}</p>
-                            ))}
-                        </div>
+            <section className="max-w-lg mx-auto px-4 pb-12 space-y-6">
+
+                {/* Panel del lobby */}
+                <div
+                    className="relative rounded-2xl bg-game-panel p-7 space-y-6 overflow-hidden"
+                    style={{ border: "1px solid rgba(179,137,86,0.35)", boxShadow: "inset 0 0 30px rgba(179,137,86,0.06), 0 4px 24px rgba(0,0,0,0.4)" }}
+                >
+                    <div
+                        className="absolute top-0 left-0 right-0 h-px"
+                        style={{ background: "linear-gradient(to right, transparent, rgba(179,137,86,0.6), transparent)" }}
+                    />
+
+                    {/* ID del lobby */}
+                    <div className="text-center">
+                        <p className="text-xs tracking-widest uppercase text-game-text-secondary opacity-60 mb-1">
+                            Código de sala
+                        </p>
+                        <p
+                            className="font-mono text-lg tracking-widest text-game-text-title px-4 py-2 rounded-lg inline-block"
+                            style={{ background: "rgba(0,0,0,0.3)", border: "1px solid rgba(179,137,86,0.25)" }}
+                        >
+                            {lobbyId}
+                        </p>
+                    </div>
+
+                    {/* Separador interno */}
+                    <div className="h-px bg-game-highlight/15" />
+
+                    {/* Lista de jugadores */}
+                    <div className="space-y-3">
+                        <p className="text-xs tracking-widest uppercase text-game-text-secondary opacity-60">
+                            Jugadores ({players.length}/2)
+                        </p>
+
+                        {[0, 1].map((slot) => {
+                            const player = players[slot];
+                            const isMe = player === nick;
+                            return (
+                                <div
+                                    key={slot}
+                                    className="flex items-center gap-3 rounded-lg px-4 py-3"
+                                    style={{
+                                        background: player ? "rgba(179,137,86,0.08)" : "rgba(0,0,0,0.2)",
+                                        border: `1px solid ${player ? "rgba(179,137,86,0.3)" : "rgba(179,137,86,0.1)"}`,
+                                    }}
+                                >
+                                    <span
+                                        className="w-2 h-2 rounded-full flex-shrink-0"
+                                        style={{ background: player ? "#0BEAA3" : "rgba(255,255,255,0.15)", boxShadow: player ? "0 0 6px #0BEAA3" : "none" }}
+                                    />
+                                    <span className={`text-sm flex-1 ${player ? "text-game-text-board" : "opacity-30"}`}>
+                                        {player ?? "Esperando jugador..."}
+                                    </span>
+                                    {isMe && (
+                                        <span className="text-xs text-game-text-secondary opacity-60 tracking-wider">
+                                            tú
+                                        </span>
+                                    )}
+                                </div>
+                            );
+                        })}
+                    </div>
+
+                    {/* Estado de espera */}
+                    {players.length < 2 && (
+                        <p className="text-center text-sm opacity-50 animate-pulse">
+                            Esperando a que se una otro jugador...
+                        </p>
                     )}
                 </div>
 
-                <div className="mt-6">
+                {/* Botones */}
+                <button
+                    onClick={handleCreateGame}
+                    disabled={!canStart}
+                    className="w-full"
+                >
+                    {game ? "Iniciando partida..." : "Iniciar partida"}
+                </button>
+
+                <div className="text-center">
                     <button
-                        disabled={players.length < 2 || game}
-                        onClick={handleCreateGame}
+                        onClick={() => unjoinLobby({ id: lobbyId, nickName: nick }, navigate("/"))}
+                        style={{ background: "transparent", border: "1px solid rgba(179,137,86,0.3)", boxShadow: "none" }}
+                        className="opacity-60 hover:opacity-100"
                     >
-                        {game ? "Creando partida..." : "Empezar partida"}
+                        Abandonar sala
                     </button>
                 </div>
             </section>
-            <button
-                onClick={() => unjoinLobby({ id: lobbyId, nickName: nick }, navigate("/"))}
-            >
-                Salir del lobby
-            </button>
-
         </Layout>
-
     );
 };
 

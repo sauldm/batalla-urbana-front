@@ -1,4 +1,3 @@
-// src/pages/Home.jsx
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Layout from "../components/layout/Layout";
@@ -7,38 +6,17 @@ import { createLobbyHttp, joinLobbyHttp } from "../services/api/lobbyApi";
 import { useLobbySocket } from "../services/webSocket/useLobbySocket";
 import RankingsModal from "../components/modal/RankingsModal";
 
-/**
- * Página principal de la aplicación donde el usuario puede crear o unirse a lobbies.
- *
- * Muestra el estado del socket, lista de lobbies disponibles y botones para
- * crear o unirse a partidas.
- *
- * @component
- * @returns {JSX.Element} Interfaz de la página de inicio
- */
 export default function Home() {
   const navigate = useNavigate();
   const { nick, connected: wsConnected } = useSocket();
-
   const { lobbies } = useLobbySocket(null);
 
   const [selected, setSelected] = useState("");
   const [showRankings, setShowRankings] = useState(false);
   const canJoin = useMemo(() => Boolean(selected), [selected]);
 
-  /**
-   * Crea un nuevo lobby en el backend y une al usuario a él.
-   *
-   * - Comprueba que el socket esté conectado y que exista `nick`.
-   * - Llama a `createLobbyHttp` para obtener un `lobbyId`.
-   * - Llama a `joinLobbyHttp` para unir al usuario al lobby y navega a la ruta del lobby.
-   *
-   * @async
-   * @returns {Promise<void>} Resuelve cuando la creación y unión han finalizado.
-   */
   const handleCreate = async () => {
     if (!wsConnected || !nick) return;
-
     try {
       const lobbyId = await createLobbyHttp();
       await joinLobbyHttp(lobbyId, nick);
@@ -49,18 +27,8 @@ export default function Home() {
     }
   };
 
-  /**
-   * Une al usuario al lobby seleccionado.
-   *
-   * - Comprueba que hay un `selected` válido y que existe `nick`.
-   * - Llama a `joinLobbyHttp` y navega a la ruta del lobby.
-   *
-   * @async
-   * @returns {Promise<void>} Resuelve cuando la unión ha finalizado.
-   */
   const handleJoin = async () => {
     if (!selected || !nick) return;
-
     try {
       await joinLobbyHttp(selected, nick);
       navigate(`/lobby/${selected}`);
@@ -72,86 +40,108 @@ export default function Home() {
 
   return (
     <Layout>
-      <section className="container mx-auto px-4 py-10">
-        <div className="max-w-4xl mx-auto space-y-8">
-          <div className="text-center space-y-2">
-            <p className="text-base md:text-lg opacity-80">
-              Bienvenido, <span className="font-semibold">{nick}</span>. Crea una partida o únete a una existente.
-            </p>
-            <div className="text-sm opacity-70">
-              Estado: {wsConnected ? "Conectado" : "Conectando..."}
+      {/* Hero */}
+      <section className="text-center pt-10 pb-8 px-4">
+        <p className="text-game-text-secondary text-sm tracking-[0.25em] uppercase mb-2">
+          Bienvenido de nuevo
+        </p>
+        <h1 className="text-5xl md:text-6xl text-game-text-title mb-3">
+          {nick}
+        </h1>
+        <div className="flex items-center justify-center gap-2 text-sm">
+          <span
+            className="w-2 h-2 rounded-full"
+            style={{ background: wsConnected ? "#0BEAA3" : "#888", boxShadow: wsConnected ? "0 0 6px #0BEAA3" : "none" }}
+          />
+          <span className="opacity-60">{wsConnected ? "Conectado" : "Conectando..."}</span>
+        </div>
+      </section>
+
+      {/* Separador decorativo */}
+      <div className="flex items-center gap-4 max-w-md mx-auto px-6 mb-10">
+        <div className="flex-1 h-px bg-game-highlight/30" />
+        <div className="w-1.5 h-1.5 rotate-45 bg-game-highlight/60" />
+        <div className="flex-1 h-px bg-game-highlight/30" />
+      </div>
+
+      {/* Paneles de acción */}
+      <section className="max-w-3xl mx-auto px-4 pb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+          {/* Crear partida */}
+          <div
+            className="relative rounded-2xl bg-game-panel p-7 space-y-5 overflow-hidden"
+            style={{ border: "1px solid rgba(179,137,86,0.35)", boxShadow: "inset 0 0 30px rgba(179,137,86,0.06), 0 4px 24px rgba(0,0,0,0.4)" }}
+          >
+            <div
+              className="absolute top-0 left-0 right-0 h-px"
+              style={{ background: "linear-gradient(to right, transparent, rgba(179,137,86,0.6), transparent)" }}
+            />
+            <div>
+              <h2 className="text-game-text-title text-xl mb-1">Crear partida</h2>
+              <p className="text-sm text-game-text-secondary">
+                Abre una sala nueva y espera a un rival.
+              </p>
             </div>
-            <button
-              onClick={() => setShowRankings(true)}
-              className="mt-4"
-            >
-              Ver Rankings
+            <button onClick={handleCreate} disabled={!wsConnected} className="w-full">
+              Crear partida
             </button>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="rounded-2xl border border-game-highlight/40 bg-game-panel p-6 md:p-8 space-y-4 shadow-sm">
-              <div className="space-y-1">
-                <h2 className="text-xl font-semibold">Crear partida</h2>
-                <p className="text-sm opacity-80">
-                  Genera un lobby nuevo y entra automáticamente.
-                </p>
-              </div>
+          {/* Unirse a partida */}
+          <div
+            className="relative rounded-2xl bg-game-panel p-7 space-y-5 overflow-hidden"
+            style={{ border: "1px solid rgba(179,137,86,0.35)", boxShadow: "inset 0 0 30px rgba(179,137,86,0.06), 0 4px 24px rgba(0,0,0,0.4)" }}
+          >
+            <div
+              className="absolute top-0 left-0 right-0 h-px"
+              style={{ background: "linear-gradient(to right, transparent, rgba(179,137,86,0.6), transparent)" }}
+            />
+            <div>
+              <h2 className="text-game-text-title text-xl mb-1">Unirse a partida</h2>
+              <p className="text-sm text-game-text-secondary">
+                Elige una sala disponible y entra.
+              </p>
+            </div>
 
-              <button
-                onClick={handleCreate}
-                disabled={!wsConnected}
-                className="w-full"
+            {lobbies.length === 0 ? (
+              <div
+                className="rounded-lg px-4 py-3 text-sm text-center opacity-60"
+                style={{ border: "1px solid rgba(179,137,86,0.2)", background: "rgba(0,0,0,0.2)" }}
               >
-                Crear y unirme
-              </button>
-            </div>
-
-            <div className="rounded-2xl border border-game-highlight/40 bg-game-panel p-6 md:p-8 space-y-4 shadow-sm">
-              <div className="space-y-1">
-                <h2 className="text-xl font-semibold">Unirse a partida</h2>
-                <p className="text-sm opacity-80">
-                  Selecciona un lobby disponible y entra.
+                {wsConnected ? "No hay partidas disponibles" : "Buscando partidas..."}
+              </div>
+            ) : (
+              <div className="space-y-3">
+                <select value={selected} onChange={(e) => setSelected(e.target.value)} className="w-full">
+                  <option value="">— Selecciona una sala —</option>
+                  {lobbies.map((id) => (
+                    <option key={id} value={id}>{id}</option>
+                  ))}
+                </select>
+                <button onClick={handleJoin} disabled={!wsConnected || !canJoin} className="w-full">
+                  Unirse
+                </button>
+                <p className="text-xs text-center opacity-40">
+                  {lobbies.length} sala{lobbies.length !== 1 ? "s" : ""} disponible{lobbies.length !== 1 ? "s" : ""}
                 </p>
               </div>
-
-              {lobbies.length === 0 ? (
-                <div className="rounded-xl border border-game-highlight/30 bg-game-bg/60 p-4 text-sm opacity-80">
-                  {wsConnected ? "No hay lobbies disponibles." : "Cargando lobbies..."}
-                </div>
-              ) : (
-                <div className="space-y-3">
-                  <label className="text-sm opacity-80">Lobbies disponibles</label>
-                  <select
-                    value={selected}
-                    onChange={(e) => setSelected(e.target.value)}
-                    className="w-full"
-                  >
-                    <option value="">Selecciona un lobby</option>
-                    {lobbies.map((id) => (
-                      <option key={id} value={id}>
-                        {id}
-                      </option>
-                    ))}
-                  </select>
-
-                  <button
-                    onClick={handleJoin}
-                    disabled={!wsConnected || !canJoin}
-                    className="w-full"
-                  >
-                    Unirse
-                  </button>
-
-                  <div className="text-xs opacity-70">
-                    Mostrando {lobbies.length} lobby{lobbies.length === 1 ? "" : "s"}.
-                  </div>
-                </div>
-              )}
-            </div>
+            )}
           </div>
         </div>
+
+        {/* Rankings */}
+        <div className="text-center mt-8">
+          <button
+            onClick={() => setShowRankings(true)}
+            className="opacity-70 hover:opacity-100"
+            style={{ background: "transparent", border: "1px solid rgba(179,137,86,0.3)", boxShadow: "none" }}
+          >
+            Ver Rankings
+          </button>
+        </div>
       </section>
+
       <RankingsModal isOpen={showRankings} onClose={() => setShowRankings(false)} />
     </Layout>
   );

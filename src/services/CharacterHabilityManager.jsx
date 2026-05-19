@@ -84,11 +84,21 @@ export function CharacterHabilityManager({
 
     return (
         <>
-            <div className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm" />
-
-            <div className="fixed inset-0 z-50 flex items-center justify-center">
-                <div className="modal-content w-[400px]">
+            <div className="fixed inset-0 z-40 bg-black/75 backdrop-blur-sm" />
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+                <div
+                    className="relative w-full max-w-sm rounded-2xl bg-game-modal overflow-hidden p-7"
+                    style={{ border: "1px solid rgba(179,137,86,0.4)", boxShadow: "0 0 60px rgba(0,0,0,0.9), inset 0 0 30px rgba(179,137,86,0.04)" }}
+                >
+                    <div
+                        className="absolute top-0 left-0 right-0 h-px"
+                        style={{ background: "linear-gradient(to right, transparent, rgba(179,137,86,0.7), transparent)" }}
+                    />
                     {renderHability()}
+                    <div
+                        className="absolute bottom-0 left-0 right-0 h-px"
+                        style={{ background: "linear-gradient(to right, transparent, rgba(179,137,86,0.3), transparent)" }}
+                    />
                 </div>
             </div>
         </>
