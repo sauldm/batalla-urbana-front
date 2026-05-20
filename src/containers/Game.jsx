@@ -226,18 +226,18 @@ const Game = () => {
                         {/* Fila 1 */}
                         <div className="celda flex flex-col items-center justify-center gap-1 tablet:gap-3">
                             <div className="flex flex-col items-center gap-0">
-                                <span className="text-white/50 text-[10px] tablet:text-xs uppercase tracking-widest">Nombre</span>
+                                <span className="text-game-accent text-[10px] tablet:text-xs uppercase tracking-widest">Nombre</span>
                                 <span className="text-white font-bold text-xs tablet:text-sm truncate max-w-full">{enemy.nickName}</span>
                             </div>
                             <div className="flex flex-col items-center gap-0">
-                                <span className="text-white/50 text-[10px] tablet:text-xs uppercase tracking-widest">Oro</span>
+                                <span className="text-game-accent text-[10px] tablet:text-xs uppercase tracking-widest">Oro</span>
                                 <div className="flex items-center gap-1">
                                     <img src={divitia} alt="oro" className="w-5 h-5 tablet:w-10 tablet:h-10" style={{ filter: "drop-shadow(0 0 6px rgba(251,191,36,0.8))" }} />
                                     <span className="text-yellow-300 text-base tablet:text-2xl font-black leading-none">{enemy.gold}</span>
                                 </div>
                             </div>
                             <div className="flex flex-col items-center gap-0">
-                                <span className="text-white/50 text-[10px] tablet:text-xs uppercase tracking-widest">Cartas</span>
+                                <span className="text-game-accent text-[10px] tablet:text-xs uppercase tracking-widest">Cartas</span>
                                 <span className="text-white text-base tablet:text-xl font-black">{enemy.numberDistrictsInHand}</span>
                             </div>
                         </div>

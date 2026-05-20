@@ -64,8 +64,8 @@ const Lobby = () => {
 
                 {/* Panel del lobby */}
                 <div
-                    className="relative rounded-2xl bg-game-panel p-7 space-y-6 overflow-hidden"
-                    style={{ border: "1px solid rgba(179,137,86,0.35)", boxShadow: "inset 0 0 30px rgba(179,137,86,0.06), 0 4px 24px rgba(0,0,0,0.4)" }}
+                    className="relative rounded-2xl bg-game-panel border border-game-highlight/35 p-7 space-y-6 overflow-hidden"
+                    style={{ boxShadow: "inset 0 0 30px rgba(179,137,86,0.06), 0 4px 24px rgba(0,0,0,0.4)" }}
                 >
                     <div
                         className="absolute top-0 left-0 right-0 h-px"
@@ -74,12 +74,11 @@ const Lobby = () => {
 
                     {/* ID del lobby */}
                     <div className="text-center">
-                        <p className="text-xs tracking-widest uppercase text-game-text-secondary opacity-60 mb-1">
+                        <p className="text-xs tracking-widest uppercase text-game-accent mb-1">
                             Código de sala
                         </p>
                         <p
-                            className="font-mono text-lg tracking-widest text-game-text-title px-4 py-2 rounded-lg inline-block"
-                            style={{ background: "rgba(0,0,0,0.3)", border: "1px solid rgba(179,137,86,0.25)" }}
+                            className="font-mono text-lg tracking-widest text-game-text-title px-4 py-2 rounded-lg inline-block bg-black/30 border border-game-highlight/25"
                         >
                             {lobbyId}
                         </p>
@@ -100,11 +99,7 @@ const Lobby = () => {
                             return (
                                 <div
                                     key={slot}
-                                    className="flex items-center gap-3 rounded-lg px-4 py-3"
-                                    style={{
-                                        background: player ? "rgba(179,137,86,0.08)" : "rgba(0,0,0,0.2)",
-                                        border: `1px solid ${player ? "rgba(179,137,86,0.3)" : "rgba(179,137,86,0.1)"}`,
-                                    }}
+                                    className={`flex items-center gap-3 rounded-lg px-4 py-3 border ${player ? "bg-game-highlight/[0.08] border-game-highlight/30" : "bg-black/20 border-game-highlight/10"}`}
                                 >
                                     <span
                                         className="w-2 h-2 rounded-full flex-shrink-0"
@@ -114,7 +109,7 @@ const Lobby = () => {
                                         {player ?? "Esperando jugador..."}
                                     </span>
                                     {isMe && (
-                                        <span className="text-xs text-game-text-secondary opacity-60 tracking-wider">
+                                        <span className="text-xs text-game-accent tracking-wider">
                                             tú
                                         </span>
                                     )}
@@ -125,7 +120,7 @@ const Lobby = () => {
 
                     {/* Estado de espera */}
                     {players.length < 2 && (
-                        <p className="text-center text-sm opacity-50 animate-pulse">
+                        <p className="text-center text-sm text-game-accent opacity-70 animate-pulse">
                             Esperando a que se una otro jugador...
                         </p>
                     )}
@@ -143,8 +138,8 @@ const Lobby = () => {
                 <div className="text-center">
                     <button
                         onClick={() => unjoinLobby({ id: lobbyId, nickName: nick }, navigate("/"))}
-                        style={{ background: "transparent", border: "1px solid rgba(179,137,86,0.3)", boxShadow: "none" }}
-                        className="opacity-60 hover:opacity-100"
+                        className="opacity-60 hover:opacity-100 border border-game-highlight/30"
+                        style={{ background: "transparent", boxShadow: "none" }}
                     >
                         Abandonar sala
                     </button>

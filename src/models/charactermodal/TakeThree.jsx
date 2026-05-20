@@ -1,6 +1,6 @@
 export default function TakeThree({ onExecute, onClose, districtId, gameId }) {
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm p-4">
+        <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/75 backdrop-blur-sm p-4">
             <div
                 className="relative w-full max-w-sm rounded-2xl bg-game-modal overflow-hidden space-y-5 p-7"
                 style={{ border: "1px solid rgba(192,132,252,0.4)", boxShadow: "0 0 50px rgba(0,0,0,0.9), inset 0 0 30px rgba(192,132,252,0.05)" }}

@@ -1,5 +1,6 @@
 import TakeThree from "./charactermodal/TakeThree";
 import { useState } from "react";
+import { createPortal } from "react-dom";
 import divitia from "../utils/images/divitia.png";
 import distritoImg from "../utils/images/distrito.png";
 
@@ -121,7 +122,7 @@ function CharacterCardView({ card, theme, canBuild, onBuild, isCurrentTurn, smal
 }
 
 // ── Carta de DISTRITO — diseño con gradiente e icono ───────────────────────
-function DistrictCardView({ card, theme, canBuild, onBuild, isBuilt, executeDistrictHability, gameId, districtHabilityUsed, isPlayerTurn, isEnemy, small, fluid, className }) {
+function DistrictCardView({ card, theme, canBuild, onBuild, isBuilt, executeDistrictHability, gameId, districtHabilityUsed, isPlayerTurn, isEnemy, small, fluid, className, onModalOpen }) {
   const [showHability, setShowHability] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
 
@@ -129,17 +130,18 @@ function DistrictCardView({ card, theme, canBuild, onBuild, isBuilt, executeDist
 
   return (
     <>
-    {showHability && (
+    {showHability && createPortal(
       <TakeThree
         onExecute={() => { executeDistrictHability({ gameId, districtId: card.id }); }}
         onClose={() => setShowHability(false)}
         districtId={card.id}
         gameId={gameId}
-      />
+      />,
+      document.body
     )}
-    {showInfo && (
+    {showInfo && createPortal(
       <div
-        className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm"
+        className="fixed inset-0 z-[200] flex items-center justify-center bg-black/70 backdrop-blur-sm"
         onClick={() => setShowInfo(false)}
       >
         <div
@@ -156,20 +158,21 @@ function DistrictCardView({ card, theme, canBuild, onBuild, isBuilt, executeDist
             Cerrar
           </button>
         </div>
-      </div>
+      </div>,
+      document.body
     )}
     <div
       onClick={(e) => {
         e.stopPropagation();
         if (canBuild) { onBuild?.(); return; }
-        if (card.color === 5 && isEnemy) setShowInfo(true);
+        if (card.color == 5 && isEnemy) { onModalOpen?.(); setShowInfo(true); }
       }}
       className={`
         card-visual relative flex-shrink-0 rounded-xl overflow-hidden select-none
         ${fluid ? SIZE_CLASSES_FLUID : small ? SIZE_CLASSES_SMALL : SIZE_CLASSES}
         ${canBuild
           ? `cursor-pointer ring-2 ring-yellow-400 shadow-[0_0_18px_rgba(250,204,21,0.55)] ${HOVER_CLASSES}`
-          : card.color === 5 && isEnemy ? "cursor-pointer" : "cursor-default"
+          : card.color == 5 && isEnemy ? "cursor-pointer" : "cursor-default"
         }
         ${className}
       `}
@@ -221,12 +224,13 @@ function DistrictCardView({ card, theme, canBuild, onBuild, isBuilt, executeDist
         </p>
       </div>
 
+
       {/* Botón habilidad distritos especiales */}
-      {card.color === 5 && isBuilt && isPlayerTurn && (
+      {card.color == 5 && isBuilt && isPlayerTurn && (
         <div className="absolute bottom-7 left-0 right-0 z-30 px-1.5">
           <button
             disabled={districtHabilityUsed}
-            onClick={(e) => { e.stopPropagation(); if (!districtHabilityUsed) setShowHability(true); }}
+            onClick={(e) => { e.stopPropagation(); if (!districtHabilityUsed) { onModalOpen?.(); setShowHability(true); } }}
             className="w-full text-[9px] py-0.5 rounded font-bold tracking-wide"
             style={{
               background: districtHabilityUsed ? "rgba(60,60,60,0.7)" : `linear-gradient(135deg, ${theme.border}99, ${theme.border}44)`,

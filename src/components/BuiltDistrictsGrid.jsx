@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, Children } from "react";
+import { useRef, useState, useEffect, Children, cloneElement } from "react";
 
 const CARD_W = 98;
 const CARD_H = 143;
@@ -78,7 +78,9 @@ export default function BuiltDistrictsGrid({ children }) {
                                 transition: "transform 150ms ease",
                             }}
                         >
-                            {card}
+                            {cloneElement(card, {
+                                onModalOpen: () => { setHoveredIdx(null); setClickedIdx(null); }
+                            })}
                         </div>
                     );
                 })}

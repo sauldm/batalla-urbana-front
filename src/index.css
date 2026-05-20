@@ -66,9 +66,7 @@
   }
 
   select {
-    @apply rounded-md border border-game-highlight/40 px-3 py-2 font-body cursor-pointer;
-    background-color: #3B3026;
-    color: #F5EBD7;
+    @apply rounded-md border border-game-highlight/40 px-3 py-2 font-body cursor-pointer bg-game-panel text-game-text-board;
   }
 
   select:focus {
@@ -76,8 +74,7 @@
   }
 
   option {
-    background-color: #3B3026;
-    color: #F5EBD7;
+    @apply bg-game-panel text-game-text-board;
   }
 
   .card {

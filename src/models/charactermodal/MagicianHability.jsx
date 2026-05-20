@@ -1,8 +1,3 @@
-const PANEL_STYLE = {
-    background: "rgba(179,137,86,0.07)",
-    border: "1px solid rgba(179,137,86,0.25)",
-};
-
 export default function MagicianHability({ onExecute, onClose, characterId, gameId, enemy }) {
     const targets = [
         { id: 0,         name: "Mazo",           desc: "Descarta tu mano y roba tantas cartas" },
@@ -20,8 +15,8 @@ export default function MagicianHability({ onExecute, onClose, characterId, game
                 {targets.map(t => (
                     <button
                         key={t.id}
-                        className="w-full text-left flex flex-col gap-0.5"
-                        style={PANEL_STYLE}
+                        className="w-full text-left flex flex-col gap-0.5 border border-game-highlight/25"
+                        style={{ background: "rgba(179,137,86,0.07)" }}
                         onClick={() => { onExecute({ characterId, gameId, targetId: t.id }); onClose(); }}
                     >
                         <span>{t.name}</span>
@@ -32,8 +27,8 @@ export default function MagicianHability({ onExecute, onClose, characterId, game
 
             <button
                 onClick={onClose}
-                style={{ background: "transparent", border: "1px solid rgba(179,137,86,0.25)", boxShadow: "none" }}
-                className="w-full opacity-60 hover:opacity-100"
+                className="w-full opacity-60 hover:opacity-100 border border-game-highlight/25"
+                style={{ background: "transparent", boxShadow: "none" }}
             >
                 Cancelar
             </button>

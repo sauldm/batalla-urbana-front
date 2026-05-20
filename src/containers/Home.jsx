@@ -53,7 +53,7 @@ export default function Home() {
             className="w-2 h-2 rounded-full"
             style={{ background: wsConnected ? "#0BEAA3" : "#888", boxShadow: wsConnected ? "0 0 6px #0BEAA3" : "none" }}
           />
-          <span className="opacity-60">{wsConnected ? "Conectado" : "Conectando..."}</span>
+          <span className="text-game-accent text-xs">{wsConnected ? "Conectado" : "Conectando..."}</span>
         </div>
       </section>
 
@@ -70,8 +70,8 @@ export default function Home() {
 
           {/* Crear partida */}
           <div
-            className="relative rounded-2xl bg-game-panel p-7 space-y-5 overflow-hidden"
-            style={{ border: "1px solid rgba(179,137,86,0.35)", boxShadow: "inset 0 0 30px rgba(179,137,86,0.06), 0 4px 24px rgba(0,0,0,0.4)" }}
+            className="relative rounded-2xl bg-game-panel border border-game-highlight/35 p-7 space-y-5 overflow-hidden"
+            style={{ boxShadow: "inset 0 0 30px rgba(179,137,86,0.06), 0 4px 24px rgba(0,0,0,0.4)" }}
           >
             <div
               className="absolute top-0 left-0 right-0 h-px"
@@ -90,8 +90,8 @@ export default function Home() {
 
           {/* Unirse a partida */}
           <div
-            className="relative rounded-2xl bg-game-panel p-7 space-y-5 overflow-hidden"
-            style={{ border: "1px solid rgba(179,137,86,0.35)", boxShadow: "inset 0 0 30px rgba(179,137,86,0.06), 0 4px 24px rgba(0,0,0,0.4)" }}
+            className="relative rounded-2xl bg-game-panel border border-game-highlight/35 p-7 space-y-5 overflow-hidden"
+            style={{ boxShadow: "inset 0 0 30px rgba(179,137,86,0.06), 0 4px 24px rgba(0,0,0,0.4)" }}
           >
             <div
               className="absolute top-0 left-0 right-0 h-px"
@@ -106,8 +106,7 @@ export default function Home() {
 
             {lobbies.length === 0 ? (
               <div
-                className="rounded-lg px-4 py-3 text-sm text-center opacity-60"
-                style={{ border: "1px solid rgba(179,137,86,0.2)", background: "rgba(0,0,0,0.2)" }}
+                className="rounded-lg px-4 py-3 text-sm text-center opacity-60 bg-black/20 border border-game-highlight/20"
               >
                 {wsConnected ? "No hay partidas disponibles" : "Buscando partidas..."}
               </div>
@@ -122,7 +121,7 @@ export default function Home() {
                 <button onClick={handleJoin} disabled={!wsConnected || !canJoin} className="w-full">
                   Unirse
                 </button>
-                <p className="text-xs text-center opacity-40">
+                <p className="text-xs text-center text-game-accent">
                   {lobbies.length} sala{lobbies.length !== 1 ? "s" : ""} disponible{lobbies.length !== 1 ? "s" : ""}
                 </p>
               </div>
@@ -134,8 +133,8 @@ export default function Home() {
         <div className="text-center mt-8">
           <button
             onClick={() => setShowRankings(true)}
-            className="opacity-70 hover:opacity-100"
-            style={{ background: "transparent", border: "1px solid rgba(179,137,86,0.3)", boxShadow: "none" }}
+            className="opacity-70 hover:opacity-100 border border-game-highlight/30"
+            style={{ background: "transparent", boxShadow: "none" }}
           >
             Ver Rankings
           </button>

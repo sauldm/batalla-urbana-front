@@ -1,8 +1,3 @@
-const PANEL_STYLE = {
-    background: "rgba(179,137,86,0.07)",
-    border: "1px solid rgba(179,137,86,0.25)",
-};
-
 export default function MilitarHability({ onExecute, onClose, characterId, gameId, deckCardsBuilt }) {
     return (
         <div className="space-y-5">
@@ -15,8 +10,8 @@ export default function MilitarHability({ onExecute, onClose, characterId, gameI
                 {deckCardsBuilt.map(c => (
                     <button
                         key={c.id}
-                        className="w-full flex items-center justify-between"
-                        style={PANEL_STYLE}
+                        className="w-full flex items-center justify-between border border-game-highlight/25"
+                        style={{ background: "rgba(179,137,86,0.07)" }}
                         onClick={() => { onExecute({ characterId, gameId, targetId: c.id }); onClose(); }}
                     >
                         <span>{c.name}</span>
@@ -29,8 +24,8 @@ export default function MilitarHability({ onExecute, onClose, characterId, gameI
 
             <button
                 onClick={onClose}
-                style={{ background: "transparent", border: "1px solid rgba(179,137,86,0.25)", boxShadow: "none" }}
-                className="w-full opacity-60 hover:opacity-100"
+                className="w-full opacity-60 hover:opacity-100 border border-game-highlight/25"
+                style={{ background: "transparent", boxShadow: "none" }}
             >
                 Cancelar
             </button>
