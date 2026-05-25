@@ -2,7 +2,11 @@ import TakeThree from "./charactermodal/TakeThree";
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import divitia from "../utils/images/divitia.png";
-import distritoImg from "../utils/images/distrito.png";
+import distritoImg   from "../utils/images/distrito.png";
+import edificioGobImg from "../utils/images/edificioGob.png";
+import edificioConqImg from "../utils/images/edificioConq.png";
+import edificioInqImg  from "../utils/images/edificioInq.png";
+import especialImg     from "../utils/images/especial.png";
 
 // ── Imágenes de personaje ──────────────────────────────────────────────────
 import asesinoImg     from "../utils/images/verdugo.png";
@@ -43,6 +47,26 @@ const CARD_THEMES = {
   5: { bg: "from-purple-900 via-violet-800 to-fuchsia-900",  border: "#c084fc", glow: "rgba(192,132,252,0.6)", icon: "✨", label: "Especial",  pattern: "magic"     },
 };
 
+// Imagen de fondo según color del distrito
+const DISTRICT_IMAGES = {
+  0: distritoImg,
+  1: edificioGobImg,
+  2: edificioConqImg,
+  3: edificioInqImg,
+  4: distritoImg,
+  5: especialImg,
+};
+
+// Título (personaje/s) que aparece en la franja superior de la carta
+const DISTRICT_TITLES = {
+  0: "Neutral",
+  1: "Gobernador",
+  2: "Verdugo · Conquistador",
+  3: "Inquisidor",
+  4: "Mercader",
+  5: "Ilusionista · Forjador",
+};
+
 // ── Patrones SVG decorativos ───────────────────────────────────────────────
 const PatternSVG = ({ pattern }) => {
   const defs = {
@@ -64,9 +88,9 @@ const PatternSVG = ({ pattern }) => {
 
 
 // ── Tamaño compartido ──────────────────────────────────────────────────────
-const SIZE_CLASSES       = "w-[112px] h-[164px] tablet:w-[130px] tablet:h-[190px]";
-const SIZE_CLASSES_SMALL = "w-[98px]  h-[143px] tablet:w-[112px] tablet:h-[164px]";
-const SIZE_CLASSES_FLUID = "w-full aspect-[3/4]";
+const SIZE_CLASSES       = "w-[80px] h-[117px] tablet:w-[112px] tablet:h-[164px] desktop:w-[130px] desktop:h-[190px]";
+const SIZE_CLASSES_SMALL = "w-[68px] h-[99px]  tablet:w-[98px]  tablet:h-[143px] desktop:w-[112px] desktop:h-[164px]";
+const SIZE_CLASSES_FLUID = "w-full h-full";
 const HOVER_CLASSES = "transition-transform duration-200 hover:scale-105 hover:-translate-y-1";
 
 // Franja de color por tipo de personaje (color de la carta)
@@ -178,20 +202,27 @@ function DistrictCardView({ card, theme, canBuild, onBuild, isBuilt, executeDist
       `}
     >
       {/* Imagen a pantalla completa */}
-      <img src={distritoImg} alt="distrito" className="absolute inset-0 w-full h-full object-cover object-center" draggable={false} />
+      <img src={DISTRICT_IMAGES[card.color] ?? distritoImg} alt="distrito" className="absolute inset-0 w-full h-full object-cover object-center" draggable={false} />
 
-      {/* Degradado inferior para legibilidad del texto */}
-      <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, transparent 40%, transparent 55%, rgba(0,0,0,0.75) 100%)" }} />
+      {/* Degradado superior e inferior para legibilidad */}
+      <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, transparent 35%, transparent 55%, rgba(0,0,0,0.80) 100%)" }} />
 
-      {/* Marco de color del tipo */}
+      {/* Franja superior: nombre del personaje */}
       <div
-        className="absolute inset-0 pointer-events-none z-10 rounded-xl"
-        style={{ boxShadow: `inset 0 0 22px 6px ${theme.border}bb` }}
-      />
+        className="absolute top-0 left-0 right-0 z-30 px-1.5 py-0.5 text-center"
+        style={{ background: "rgba(0,0,0,0.60)" }}
+      >
+        <p
+          className="text-white font-bold uppercase tracking-wide leading-tight"
+          style={{ fontSize: "clamp(6px, 1.4vw, 9px)" }}
+        >
+          {DISTRICT_TITLES[card.color] ?? ""}
+        </p>
+      </div>
 
       {/* Precio — esquina superior derecha */}
       {card.gold > 0 && (
-        <div className="absolute top-1.5 right-1.5 z-30">
+        <div className="absolute top-5 right-1.5 z-30">
           <span
             className="text-[11px] font-black leading-none px-1.5 py-0.5 rounded-md flex items-center gap-0.5"
             style={{ background: "rgba(0,0,0,0.65)", color: "#fbbf24", border: "1px solid rgba(251,191,36,0.45)" }}
@@ -206,14 +237,13 @@ function DistrictCardView({ card, theme, canBuild, onBuild, isBuilt, executeDist
         className="absolute bottom-0 left-0 right-0 z-30 px-2 pb-1.5 pt-1"
         style={{
           background: "linear-gradient(to top, rgba(10,6,2,0.92), rgba(10,6,2,0.65))",
-          borderTop: `1px solid ${theme.border}55`,
         }}
       >
         <p
           className="text-white font-bold text-center leading-tight"
           style={{
             fontSize: "clamp(8px, 1.8vw, 11px)",
-            textShadow: `0 0 6px ${theme.border}99, 0 1px 3px rgba(0,0,0,1)`,
+            textShadow: "0 1px 4px rgba(0,0,0,1)",
             display: "-webkit-box",
             WebkitLineClamp: 2,
             WebkitBoxOrient: "vertical",

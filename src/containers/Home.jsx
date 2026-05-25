@@ -129,8 +129,15 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Rankings */}
-        <div className="text-center mt-8">
+        {/* Secundarios */}
+        <div className="flex justify-center gap-4 mt-8 flex-wrap">
+          <button
+            onClick={() => navigate("/tutorial")}
+            className="opacity-70 hover:opacity-100 border border-game-highlight/30"
+            style={{ background: "transparent", boxShadow: "none" }}
+          >
+            Cómo jugar
+          </button>
           <button
             onClick={() => setShowRankings(true)}
             className="opacity-70 hover:opacity-100 border border-game-highlight/30"

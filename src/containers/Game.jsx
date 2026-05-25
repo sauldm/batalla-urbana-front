@@ -122,7 +122,7 @@ const Game = () => {
                 {Array.from({ length: count }).map((_, i) => (
                     <div
                         key={i}
-                        className="aspect-[3/4] w-[98px] shrink-0 overflow-hidden">
+                        className="aspect-[3/4] w-[68px] tablet:w-[98px] shrink-0 overflow-hidden">
                         <img
                             src={cartaAtras}
                             alt={`Distrito ${i + 1}`}
@@ -135,39 +135,66 @@ const Game = () => {
     };
 
     if (gameEnded) {
+        const medals = ["🥇", "🥈", "🥉"];
+        const sorted = [...gameState.playerCommonInfoDTOS].sort((a, b) => b.points - a.points);
         return (
-            <div className="min-h-screen flex flex-col items-center bg-game-back p-6">
-                <h1 className="mb-6">Clasificación Final</h1>
+            <div className="min-h-screen bg-game-bg flex flex-col items-center px-4 py-12">
+                {/* Hero */}
+                <div className="text-center mb-8">
+                    <p className="text-game-accent text-sm tracking-[0.25em] uppercase mb-2">Partida finalizada</p>
+                    <h1 className="text-5xl text-game-text-title">Clasificación Final</h1>
+                </div>
 
-                <table className="w-full max-w-xl border border-game-highlight/40 rounded-lg overflow-hidden">
-                    <thead className="bg-game-olive">
-                        <tr>
-                            <th className="px-4 py-2 text-left text-game-text-inverse">Posición</th>
-                            <th className="px-4 py-2 text-left text-game-text-inverse">Jugador</th>
-                            <th className="px-4 py-2 text-right text-game-text-inverse">Puntos</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {[...gameState.playerCommonInfoDTOS]
-                            .sort((a, b) => b.points - a.points)
-                            .map((player, index) => (
+                {/* Separador decorativo */}
+                <div className="flex items-center gap-4 w-full max-w-lg mb-10">
+                    <div className="flex-1 h-px bg-game-highlight/30" />
+                    <div className="w-1.5 h-1.5 rotate-45 bg-game-highlight/60" />
+                    <div className="flex-1 h-px bg-game-highlight/30" />
+                </div>
+
+                {/* Panel */}
+                <div
+                    className="relative w-full max-w-lg rounded-2xl bg-game-panel border border-game-highlight/35 overflow-hidden mb-8"
+                    style={{ boxShadow: "inset 0 0 30px rgba(179,137,86,0.06), 0 4px 24px rgba(0,0,0,0.4)" }}
+                >
+                    <div className="absolute top-0 left-0 right-0 h-px" style={{ background: "linear-gradient(to right, transparent, rgba(179,137,86,0.6), transparent)" }} />
+
+                    <table className="w-full text-left">
+                        <thead>
+                            <tr className="border-b border-game-highlight/30">
+                                <th className="px-6 py-4 text-game-accent text-xs uppercase tracking-widest font-normal">Pos.</th>
+                                <th className="px-4 py-4 text-game-accent text-xs uppercase tracking-widest font-normal">Jugador</th>
+                                <th className="px-6 py-4 text-game-accent text-xs uppercase tracking-widest font-normal text-right">Puntos</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {sorted.map((p, i) => (
                                 <tr
-                                    key={player.nickName}
-                                    className={index === 0 ? "bg-game-highlight font-bold" : "bg-game-board"}
+                                    key={p.nickName}
+                                    className={`border-b border-game-highlight/10 transition-colors ${i === 0 ? "bg-game-highlight/[0.12]" : "hover:bg-game-highlight/[0.05]"}`}
                                 >
-                                    <td className="px-4 py-2 text-game-text-main">{index + 1}</td>
-                                    <td className="px-4 py-2 text-game-text-main">{player.nickName}</td>
-                                    <td className="px-4 py-2 text-right text-game-text-main">{player.points}</td>
+                                    <td className="px-6 py-4 text-xl">
+                                        {i < 3 ? medals[i] : <span className="text-game-text-secondary text-sm">#{i + 1}</span>}
+                                    </td>
+                                    <td className={`px-4 py-4 ${i === 0 ? "text-game-text-title font-bold" : "text-game-text-board"}`}>
+                                        {p.nickName}
+                                    </td>
+                                    <td className={`px-6 py-4 text-right ${i === 0 ? "text-game-highlight font-bold" : "text-game-text-secondary"}`}>
+                                        {p.points}
+                                    </td>
                                 </tr>
                             ))}
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
 
-                <button onClick={() => navigate("/ranking")} className="mt-8">
-                    Continuar
+                    <div className="absolute bottom-0 left-0 right-0 h-px" style={{ background: "linear-gradient(to right, transparent, rgba(179,137,86,0.3), transparent)" }} />
+                </div>
+
+                <button onClick={() => navigate("/ranking")} className="w-full max-w-lg">
+                    Ver rankings globales
                 </button>
             </div>
-        )
+        );
     }
     if (!gameState || !privateInfo || !player || !enemy) {
         return (

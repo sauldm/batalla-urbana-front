@@ -1,9 +1,13 @@
 import { useRef, useState, useEffect, Children, cloneElement } from "react";
 
-const CARD_W = 98;
-const CARD_H = 143;
 const GAP = 8;
 const MIN_VISIBLE = 22;
+
+const getCardDims = (cW) => {
+    if (cW < 400) return { w: 68, h: 99 };
+    if (cW < 600) return { w: 80, h: 117 };
+    return { w: 98, h: 143 };
+};
 
 export default function BuiltDistrictsGrid({ children }) {
     const containerRef = useRef(null);
@@ -25,6 +29,9 @@ export default function BuiltDistrictsGrid({ children }) {
     }, []);
 
     if (count === 0) return <div ref={containerRef} className="w-full" />;
+
+    const dims = containerW !== null ? getCardDims(containerW) : { w: 98, h: 143 };
+    const { w: CARD_W, h: CARD_H } = dims;
 
     if (containerW === null) {
         return <div ref={containerRef} className="w-full" style={{ height: CARD_H }} />;
@@ -60,11 +67,9 @@ export default function BuiltDistrictsGrid({ children }) {
                             onClickCapture={(e) => {
                                 if (!overflows) return;
                                 if (clickedIdx === i) {
-                                    // Segunda pulsación: bajar sin disparar acción de la carta
                                     e.stopPropagation();
                                     setClickedIdx(null);
                                 } else {
-                                    // Primera pulsación: levantar sin disparar acción de la carta
                                     e.stopPropagation();
                                     setClickedIdx(i);
                                 }
@@ -73,12 +78,14 @@ export default function BuiltDistrictsGrid({ children }) {
                                 position: "absolute",
                                 left: startX + i * offset,
                                 width: CARD_W,
+                                height: CARD_H,
                                 zIndex: isActive ? 100 : i,
                                 transform: isActive ? "translateY(-14px)" : "none",
                                 transition: "transform 150ms ease",
                             }}
                         >
                             {cloneElement(card, {
+                                fluid: true,
                                 onModalOpen: () => { setHoveredIdx(null); setClickedIdx(null); }
                             })}
                         </div>

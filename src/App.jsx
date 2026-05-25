@@ -5,6 +5,7 @@ import Lobby from "./containers/Lobby";
 import { LobbyProvider } from "./providers/LobbyProvider";
 import { GameProvider } from "./providers/GameProvider";
 import EndGameTable from "./containers/EndGameTable";
+import Tutorial from "./containers/Tutorial";
 
 export default function App() {
   return (
@@ -39,6 +40,7 @@ export default function App() {
         />
 
         <Route path="/ranking" element={<EndGameTable />} />
+        <Route path="/tutorial" element={<Tutorial />} />
 
       </Routes>
     </BrowserRouter>
