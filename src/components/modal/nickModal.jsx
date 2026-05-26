@@ -2,10 +2,7 @@ import { useState } from "react";
 import { useSocket } from "../../services/webSocket/socketProvider";
 import { register, login, nickExists } from "../../services/auth/authService";
 
-const inputStyle = {
-    background: "rgba(0,0,0,0.3)",
-    border: "1px solid rgba(179,137,86,0.3)",
-};
+const inputClass = "w-full rounded-lg px-4 py-3 text-game-text-board placeholder:opacity-30 outline-none bg-black/30 border border-game-highlight/30";
 
 export default function NickModal() {
     const { setNickAndConnect } = useSocket();
@@ -54,8 +51,8 @@ export default function NickModal() {
     return (
         <div className="fixed inset-0 z-50 grid place-items-center bg-black/80 backdrop-blur-sm p-4">
             <div
-                className="w-full max-w-sm rounded-2xl bg-game-modal relative overflow-hidden"
-                style={{ border: "1px solid rgba(179,137,86,0.4)", boxShadow: "0 0 60px rgba(0,0,0,0.9), inset 0 0 30px rgba(179,137,86,0.04)" }}
+                className="w-full max-w-sm rounded-2xl bg-game-modal border border-game-highlight/40 relative overflow-hidden"
+                style={{ boxShadow: "0 0 60px rgba(0,0,0,0.9), inset 0 0 30px rgba(179,137,86,0.04)" }}
             >
                 <div
                     className="absolute top-0 left-0 right-0 h-px"
@@ -69,7 +66,7 @@ export default function NickModal() {
                 </div>
 
                 {/* Pestañas */}
-                <div className="flex mx-6 mb-5 rounded-lg overflow-hidden" style={{ border: "1px solid rgba(179,137,86,0.25)" }}>
+                <div className="flex mx-6 mb-5 rounded-lg overflow-hidden border border-game-highlight/25">
                     {["login", "register"].map(t => (
                         <button
                             key={t}
@@ -97,8 +94,7 @@ export default function NickModal() {
                         onKeyDown={onKey}
                         placeholder="Nick"
                         autoFocus
-                        className="w-full rounded-lg px-4 py-3 text-game-text-board placeholder:opacity-30 outline-none"
-                        style={inputStyle}
+                        className={inputClass}
                     />
                     <input
                         type="password"
@@ -106,8 +102,7 @@ export default function NickModal() {
                         onChange={e => setPassword(e.target.value)}
                         onKeyDown={onKey}
                         placeholder="Contraseña"
-                        className="w-full rounded-lg px-4 py-3 text-game-text-board placeholder:opacity-30 outline-none"
-                        style={inputStyle}
+                        className={inputClass}
                     />
                     {tab === "register" && (
                         <input
@@ -116,8 +111,7 @@ export default function NickModal() {
                             onChange={e => setConfirm(e.target.value)}
                             onKeyDown={onKey}
                             placeholder="Confirmar contraseña"
-                            className="w-full rounded-lg px-4 py-3 text-game-text-board placeholder:opacity-30 outline-none"
-                            style={inputStyle}
+                            className={inputClass}
                         />
                     )}
 

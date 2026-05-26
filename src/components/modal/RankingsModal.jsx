@@ -1,14 +1,6 @@
 import { useEffect, useState } from "react";
 import { getClassificationTable } from "../../services/api/classificationTableApi";
 
-/**
- * Modal que muestra la tabla de rankings/clasificación del juego.
- *
- * @component
- * @param {boolean} isOpen - Indica si el modal está abierto
- * @param {function} onClose - Función para cerrar el modal
- * @returns {JSX.Element} Modal con la tabla de rankings
- */
 export default function RankingsModal({ isOpen, onClose }) {
   const [rankings, setRankings] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -16,89 +8,91 @@ export default function RankingsModal({ isOpen, onClose }) {
 
   useEffect(() => {
     if (!isOpen) return;
-
-    const fetchRankings = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const data = await getClassificationTable();
-        setRankings(data);
-      } catch (e) {
-        console.error(e);
-        setError("No se pudieron cargar los rankings");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchRankings();
+    setLoading(true);
+    setError(null);
+    getClassificationTable()
+      .then(setRankings)
+      .catch(() => setError("No se pudieron cargar los rankings"))
+      .finally(() => setLoading(false));
   }, [isOpen]);
 
   if (!isOpen) return null;
 
+  const medals = ["🥇", "🥈", "🥉"];
+
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-game-modal border-2 border-game-highlight/50 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-auto shadow-2xl">
-        {/* Header */}
-        <div className="sticky top-0 bg-game-modal border-b border-game-highlight/40 p-6 flex justify-between items-center">
-          <h2 className="text-2xl font-semibold">Rankings</h2>
-          <button
-            onClick={onClose}
-            className="text-2xl leading-none opacity-70 hover:opacity-100 transition-opacity"
-          >
-            ✕
-          </button>
-        </div>
+    <>
+      <div className="fixed inset-0 z-[190] bg-black/80 backdrop-blur-sm" />
+      <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
+        <div
+          className="relative w-full max-w-lg rounded-2xl bg-game-modal border border-game-highlight/40 overflow-hidden"
+          style={{ boxShadow: "0 0 60px rgba(0,0,0,0.9), inset 0 0 30px rgba(179,137,86,0.04)" }}
+        >
+          <div className="absolute top-0 left-0 right-0 h-px" style={{ background: "linear-gradient(to right, transparent, rgba(179,137,86,0.7), transparent)" }} />
 
-        {/* Content */}
-        <div className="p-6">
-          {loading && (
-            <div className="text-center py-8">
-              <p className="opacity-70">Cargando rankings...</p>
+          {/* Cabecera */}
+          <div className="flex items-center justify-between px-7 pt-7 pb-5 border-b border-game-highlight/20">
+            <div>
+              <h2 className="text-game-text-title text-2xl">Rankings</h2>
+              <p className="text-game-accent text-xs tracking-widest uppercase mt-0.5">Clasificación global</p>
             </div>
-          )}
+            <button
+              onClick={onClose}
+              className="opacity-50 hover:opacity-100 text-lg leading-none"
+              style={{ background: "transparent", border: "none", boxShadow: "none", padding: "4px 8px" }}
+            >
+              ✕
+            </button>
+          </div>
 
-          {error && (
-            <div className="bg-red-500 bg-opacity-10 border border-red-500 rounded-lg p-4 text-red-500">
-              {error}
-            </div>
-          )}
+          {/* Contenido */}
+          <div className="px-7 py-5 max-h-[60vh] overflow-y-auto">
+            {loading && (
+              <p className="text-center text-game-accent py-8 animate-pulse">Cargando rankings...</p>
+            )}
 
-          {!loading && !error && rankings.length === 0 && (
-            <div className="text-center py-8">
-              <p className="opacity-70">No hay rankings disponibles</p>
-            </div>
-          )}
+            {error && (
+              <p className="text-center text-red-400 py-8">{error}</p>
+            )}
 
-          {!loading && !error && rankings.length > 0 && (
-            <div className="overflow-x-auto">
+            {!loading && !error && rankings.length === 0 && (
+              <p className="text-center text-game-text-secondary opacity-60 py-8">No hay rankings disponibles</p>
+            )}
+
+            {!loading && !error && rankings.length > 0 && (
               <table className="w-full text-left">
                 <thead>
-                  <tr className="border-b border-game-highlight/30 text-game-text-title opacity-80">
-                    <th className="pb-3 pr-4 font-semibold">Posición</th>
-                    <th className="pb-3 pr-4 font-semibold">Nick</th>
-                    <th className="pb-3 font-semibold">Victorias</th>
+                  <tr className="border-b border-game-highlight/30">
+                    <th className="pb-3 pr-4 text-game-accent text-xs uppercase tracking-widest font-normal">Pos.</th>
+                    <th className="pb-3 pr-4 text-game-accent text-xs uppercase tracking-widest font-normal">Jugador</th>
+                    <th className="pb-3 text-game-accent text-xs uppercase tracking-widest font-normal text-right">Victorias</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {rankings.map((player, index) => (
-                    <tr key={index} className={`border-b border-game-highlight/20 transition-colors ${index === 0 ? "bg-game-highlight/20 font-bold" : "hover:bg-game-panel/60"}`}>
-                      <td className="py-3 pr-4 font-semibold text-lg">
-                        {index === 0 && "🥇"}
-                        {index === 1 && "🥈"}
-                        {index === 2 && "🥉"}
-                        {index > 2 && `#${index + 1}`}
+                  {rankings.map((player, i) => (
+                    <tr
+                      key={i}
+                      className={`border-b border-game-highlight/10 transition-colors ${i === 0 ? "bg-game-highlight/[0.12]" : "hover:bg-game-highlight/[0.05]"}`}
+                    >
+                      <td className="py-3 pr-4 text-lg">
+                        {i < 3 ? medals[i] : <span className="text-game-text-secondary text-sm">#{i + 1}</span>}
                       </td>
-                      <td className="py-3 pr-4">{player.nickName}</td>
-                      <td className="py-3">{player.wins || player.victorias || 0}</td>
+                      <td className={`py-3 pr-4 ${i === 0 ? "text-game-text-title font-bold" : "text-game-text-board"}`}>
+                        {player.nickName}
+                      </td>
+                      <td className={`py-3 text-right ${i === 0 ? "text-game-highlight font-bold" : "text-game-text-secondary"}`}>
+                        {player.wins ?? player.victorias ?? 0}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
-            </div>
-          )}
+            )}
+          </div>
+
+          <div className="absolute bottom-0 left-0 right-0 h-px" style={{ background: "linear-gradient(to right, transparent, rgba(179,137,86,0.3), transparent)" }} />
         </div>
       </div>
-    </div>
+    </>
   );
 }

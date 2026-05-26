@@ -84,8 +84,8 @@ export function CharacterHabilityManager({
 
     return (
         <>
-            <div className="fixed inset-0 z-40 bg-black/75 backdrop-blur-sm" />
-            <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <div className="fixed inset-0 z-[190] bg-black/75 backdrop-blur-sm" />
+            <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
                 <div
                     className="relative w-full max-w-sm rounded-2xl bg-game-modal overflow-hidden p-7"
                     style={{ border: "1px solid rgba(179,137,86,0.4)", boxShadow: "0 0 60px rgba(0,0,0,0.9), inset 0 0 30px rgba(179,137,86,0.04)" }}

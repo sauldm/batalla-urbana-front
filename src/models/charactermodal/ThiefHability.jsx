@@ -1,8 +1,3 @@
-const PANEL_STYLE = {
-    background: "rgba(179,137,86,0.07)",
-    border: "1px solid rgba(179,137,86,0.25)",
-};
-
 export default function ThiefHability({ onExecute, onClose, characterId, gameId }) {
     const targets = [
         { id: 3, name: "Ilusionista" },
@@ -24,8 +19,8 @@ export default function ThiefHability({ onExecute, onClose, characterId, gameId 
                 {targets.map(t => (
                     <button
                         key={t.id}
-                        className="w-full text-left"
-                        style={PANEL_STYLE}
+                        className="w-full text-left border border-game-highlight/25"
+                        style={{ background: "rgba(179,137,86,0.07)" }}
                         onClick={() => { onExecute({ characterId, gameId, targetId: t.id }); onClose(); }}
                     >
                         {t.name}
@@ -35,8 +30,8 @@ export default function ThiefHability({ onExecute, onClose, characterId, gameId 
 
             <button
                 onClick={onClose}
-                style={{ background: "transparent", border: "1px solid rgba(179,137,86,0.25)", boxShadow: "none" }}
-                className="w-full opacity-60 hover:opacity-100"
+                className="w-full opacity-60 hover:opacity-100 border border-game-highlight/25"
+                style={{ background: "transparent", boxShadow: "none" }}
             >
                 Cancelar
             </button>

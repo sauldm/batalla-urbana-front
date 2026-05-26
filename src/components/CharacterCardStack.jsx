@@ -40,7 +40,7 @@ export default function CharacterCardStack({ cards, characterTurnId, label = "Tu
             className="flex flex-col items-center gap-6 p-8 rounded-2xl bg-white/5"
             onClick={e => e.stopPropagation()}
           >
-            <span className="text-white text-xs uppercase tracking-widest opacity-50">
+            <span className="text-game-accent text-xs uppercase tracking-widest">
               {label}
             </span>
             <div className="flex gap-10 items-center justify-center">
