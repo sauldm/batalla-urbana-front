@@ -1,4 +1,4 @@
-export default function TakeThree({ onExecute, onClose, districtId, gameId }) {
+export default function TakeThree({ onExecute, onClose, districtId, gameId, cardName, cardDescription }) {
     return (
         <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/75 backdrop-blur-sm p-4">
             <div
@@ -11,11 +11,11 @@ export default function TakeThree({ onExecute, onClose, districtId, gameId }) {
                     style={{ background: "linear-gradient(to right, transparent, rgba(192,132,252,0.7), transparent)" }}
                 />
 
-                <div className="text-center space-y-1">
-                    <h3 className="text-xl" style={{ color: "#c084fc" }}>Habilidad especial</h3>
-                    <p className="text-game-text-secondary text-sm opacity-70">
-                        Intercambia <span className="text-yellow-300 font-bold">2 💰</span> por <span className="text-green-300 font-bold">3 cartas</span>
-                    </p>
+                <div className="text-center space-y-2">
+                    {cardName && <h3 className="text-xl" style={{ color: "#c084fc" }}>{cardName}</h3>}
+                    {cardDescription && (
+                        <p className="text-game-text-secondary text-sm opacity-80">{cardDescription}</p>
+                    )}
                 </div>
 
                 <div className="flex gap-3 pt-1">

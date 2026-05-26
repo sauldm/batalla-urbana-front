@@ -40,7 +40,7 @@ export default function ScrollableCardRow({ children }) {
     };
 
     return (
-        <div className="relative w-full max-w-full flex items-center">
+        <div className="relative w-full max-w-full flex items-center" style={{ paddingTop: 8 }}>
 
             <button
                 onClick={() => scroll(-1)}

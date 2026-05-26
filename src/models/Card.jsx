@@ -2,10 +2,11 @@ import TakeThree from "./charactermodal/TakeThree";
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import divitia from "../utils/images/divitia.png";
-import distritoImg   from "../utils/images/distrito.png";
-import edificioGobImg from "../utils/images/edificioGob.png";
+import distritoImg    from "../utils/images/distrito.png";
+import edificioGobImg  from "../utils/images/edificioGob.png";
 import edificioConqImg from "../utils/images/edificioConq.png";
 import edificioInqImg  from "../utils/images/edificioInq.png";
+import edificioMercImg from "../utils/images/edificioMerc.png";
 import especialImg     from "../utils/images/especial.png";
 
 // ── Imágenes de personaje ──────────────────────────────────────────────────
@@ -30,12 +31,6 @@ const CHARACTER_IMAGES = {
   8: conquistadorImg, // Militar
 };
 
-// ── Descripción de habilidades de distritos especiales (por card.id) ────────
-const DISTRICT_DESCRIPTIONS = {
-  // Añade aquí: [id]: "descripción de la habilidad"
-  // Ejemplo: 25: "Intercambia 2 💰 por robar 3 cartas de la reserva."
-};
-const DEFAULT_SPECIAL_DESC = "Intercambia 2 💰 por robar 3 cartas de la reserva.";
 
 // ── Paleta por color de distrito ──────────────────────────────────────────
 const CARD_THEMES = {
@@ -53,7 +48,7 @@ const DISTRICT_IMAGES = {
   1: edificioGobImg,
   2: edificioConqImg,
   3: edificioInqImg,
-  4: distritoImg,
+  4: edificioMercImg,
   5: especialImg,
 };
 
@@ -61,10 +56,10 @@ const DISTRICT_IMAGES = {
 const DISTRICT_TITLES = {
   0: "Neutral",
   1: "Gobernador",
-  2: "Verdugo · Conquistador",
+  2: "Conquistador",
   3: "Inquisidor",
   4: "Mercader",
-  5: "Ilusionista · Forjador",
+  5: "Especial",
 };
 
 // ── Patrones SVG decorativos ───────────────────────────────────────────────
@@ -88,8 +83,8 @@ const PatternSVG = ({ pattern }) => {
 
 
 // ── Tamaño compartido ──────────────────────────────────────────────────────
-const SIZE_CLASSES       = "w-[80px] h-[117px] tablet:w-[112px] tablet:h-[164px] desktop:w-[130px] desktop:h-[190px]";
-const SIZE_CLASSES_SMALL = "w-[68px] h-[99px]  tablet:w-[98px]  tablet:h-[143px] desktop:w-[112px] desktop:h-[164px]";
+const SIZE_CLASSES       = "w-[96px] h-[140px] tablet:w-[130px] tablet:h-[190px] desktop:w-[150px] desktop:h-[220px]";
+const SIZE_CLASSES_SMALL = "w-[80px] h-[117px] tablet:w-[112px] tablet:h-[164px] desktop:w-[130px] desktop:h-[190px]";
 const SIZE_CLASSES_FLUID = "w-full h-full";
 const HOVER_CLASSES = "transition-transform duration-200 hover:scale-105 hover:-translate-y-1";
 
@@ -124,14 +119,17 @@ function CharacterCardView({ card, theme, canBuild, onBuild, isCurrentTurn, smal
     >
       {/* Retrato */}
       {img
-        ? <img src={img} alt={card.name} className="absolute inset-0 w-full h-full object-cover object-center" draggable={false} />
+        ? <img src={img} alt={card.name} className="absolute inset-0 w-full h-full object-cover object-top" draggable={false} />
         : <div className={`absolute inset-0 bg-gradient-to-b ${theme.bg}`} />
       }
+
+      {/* Viñeta suave */}
+      {img && <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(0,0,0,0.3) 100%)" }} />}
 
       {/* Marco de color del tipo */}
       <div
         className="absolute inset-0 pointer-events-none z-10 rounded-xl"
-        style={{ boxShadow: `inset 0 0 22px 6px ${strip.color}bb` }}
+        style={{ boxShadow: `inset 0 0 0 1.5px ${strip.color}99, inset 0 0 18px 4px ${strip.color}44` }}
       />
 
       {/* Pulso dorado cuando es construible */}
@@ -150,8 +148,6 @@ function DistrictCardView({ card, theme, canBuild, onBuild, isBuilt, executeDist
   const [showHability, setShowHability] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
 
-  const description = DISTRICT_DESCRIPTIONS[card.id] ?? DEFAULT_SPECIAL_DESC;
-
   return (
     <>
     {showHability && createPortal(
@@ -160,6 +156,8 @@ function DistrictCardView({ card, theme, canBuild, onBuild, isBuilt, executeDist
         onClose={() => setShowHability(false)}
         districtId={card.id}
         gameId={gameId}
+        cardName={card.name}
+        cardDescription={card.description}
       />,
       document.body
     )}
@@ -174,7 +172,9 @@ function DistrictCardView({ card, theme, canBuild, onBuild, isBuilt, executeDist
         >
           <p className="text-purple-300 text-lg font-bold tracking-wide">{card.name}</p>
           <p className="text-[11px] font-bold uppercase tracking-wider opacity-60 text-white">{theme.label}</p>
-          <p className="text-white text-base">{description}</p>
+          {card.description && (
+            <p className="text-white text-sm leading-relaxed">{card.description}</p>
+          )}
           <button
             onClick={() => setShowInfo(false)}
             className="px-6 py-2 rounded-xl font-bold text-white bg-white/10 hover:bg-white/20"
@@ -202,48 +202,75 @@ function DistrictCardView({ card, theme, canBuild, onBuild, isBuilt, executeDist
       `}
     >
       {/* Imagen a pantalla completa */}
-      <img src={DISTRICT_IMAGES[card.color] ?? distritoImg} alt="distrito" className="absolute inset-0 w-full h-full object-cover object-center" draggable={false} />
+      <img src={DISTRICT_IMAGES[card.color] ?? distritoImg} alt="distrito" className="absolute inset-0 w-full h-full object-cover object-top" draggable={false} />
 
-      {/* Degradado superior e inferior para legibilidad */}
-      <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, transparent 35%, transparent 55%, rgba(0,0,0,0.80) 100%)" }} />
+      {/* Viñeta central suave para dar profundidad */}
+      <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(0,0,0,0.35) 100%)" }} />
 
-      {/* Franja superior: nombre del personaje */}
+      {/* Degradado inferior para legibilidad del nombre */}
+      <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, transparent 45%, rgba(0,0,0,0.85) 100%)" }} />
+
+      {/* Marco interior de color */}
       <div
-        className="absolute top-0 left-0 right-0 z-30 px-1.5 py-0.5 text-center"
-        style={{ background: "rgba(0,0,0,0.60)" }}
+        className="absolute inset-0 pointer-events-none z-10 rounded-xl"
+        style={{ boxShadow: `inset 0 0 0 1.5px ${theme.border}99, inset 0 0 18px 4px ${theme.border}44` }}
+      />
+
+      {/* Franja superior: tipo de personaje */}
+      <div
+        className="absolute top-0 left-0 right-0 z-30 px-1.5 py-[3px] text-center"
+        style={{
+          background: `linear-gradient(to bottom, rgba(0,0,0,0.75), rgba(0,0,0,0.45))`,
+          borderBottom: `1px solid ${theme.border}55`,
+        }}
       >
         <p
-          className="text-white font-bold uppercase tracking-wide leading-tight"
-          style={{ fontSize: "clamp(6px, 1.4vw, 9px)" }}
+          className="font-bold uppercase tracking-widest leading-tight"
+          style={{ fontSize: "clamp(5px, 1.3vw, 8px)", color: theme.border }}
         >
           {DISTRICT_TITLES[card.color] ?? ""}
         </p>
       </div>
 
-      {/* Precio — esquina superior derecha */}
-      {card.gold > 0 && (
-        <div className="absolute top-5 right-1.5 z-30">
+      {/* Icono indestructible — esquina superior izquierda */}
+      {card.undestructible && (
+        <div className="absolute top-5 left-1 z-30">
           <span
-            className="text-[11px] font-black leading-none px-1.5 py-0.5 rounded-md flex items-center gap-0.5"
-            style={{ background: "rgba(0,0,0,0.65)", color: "#fbbf24", border: "1px solid rgba(251,191,36,0.45)" }}
+            className="text-[10px] leading-none px-1 py-0.5 rounded flex items-center"
+            style={{ background: "rgba(0,0,0,0.75)", color: "#94a3b8", border: "1px solid rgba(148,163,184,0.4)" }}
+            title="Indestructible"
           >
-            <img src={divitia} alt="oro" className="inline w-3 h-3" />{card.gold}
+            🛡️
           </span>
         </div>
       )}
 
-      {/* Placa de nombre — estilo pergamino */}
+      {/* Precio — esquina superior derecha, debajo de la franja */}
+      {card.gold > 0 && (
+        <div className="absolute top-5 right-1 z-30">
+          <span
+            className="text-[10px] font-black leading-none px-1 py-0.5 rounded flex items-center gap-0.5"
+            style={{ background: "rgba(0,0,0,0.75)", color: "#fbbf24", border: "1px solid rgba(251,191,36,0.5)" }}
+          >
+            <img src={divitia} alt="oro" className="inline w-2.5 h-2.5" />{card.gold}
+          </span>
+        </div>
+      )}
+
+      {/* Placa de nombre */}
       <div
-        className="absolute bottom-0 left-0 right-0 z-30 px-2 pb-1.5 pt-1"
+        className="absolute bottom-0 left-0 right-0 z-30 px-1.5 pb-1.5 pt-1"
         style={{
-          background: "linear-gradient(to top, rgba(10,6,2,0.92), rgba(10,6,2,0.65))",
+          background: `linear-gradient(to top, rgba(5,3,1,0.95) 60%, transparent)`,
+          borderTop: `1px solid ${theme.border}33`,
         }}
       >
         <p
-          className="text-white font-bold text-center leading-tight"
+          className="font-bold text-center leading-tight"
           style={{
             fontSize: "clamp(8px, 1.8vw, 11px)",
-            textShadow: "0 1px 4px rgba(0,0,0,1)",
+            color: "#f5e6cc",
+            textShadow: `0 0 8px ${theme.border}88, 0 1px 3px rgba(0,0,0,1)`,
             display: "-webkit-box",
             WebkitLineClamp: 2,
             WebkitBoxOrient: "vertical",

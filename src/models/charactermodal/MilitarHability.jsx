@@ -10,13 +10,14 @@ export default function MilitarHability({ onExecute, onClose, characterId, gameI
                 {deckCardsBuilt.map(c => (
                     <button
                         key={c.id}
+                        disabled={c.undestructible}
                         className="w-full flex items-center justify-between border border-game-highlight/25"
-                        style={{ background: "rgba(179,137,86,0.07)" }}
+                        style={{ background: "rgba(179,137,86,0.07)", opacity: c.undestructible ? 0.4 : 1 }}
                         onClick={() => { onExecute({ characterId, gameId, targetId: c.id }); onClose(); }}
                     >
                         <span>{c.name}</span>
                         <span className="text-xs opacity-50">
-                            Coste: {parseInt(c.gold) - 1} 💰
+                            {c.undestructible ? "Indestructible" : `Coste: ${parseInt(c.gold) - 1} 💰`}
                         </span>
                     </button>
                 ))}

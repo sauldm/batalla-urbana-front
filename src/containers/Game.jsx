@@ -85,6 +85,7 @@ const Game = () => {
     console.log(gameState)
     console.log(events)
     console.log(privateInfo?.districtsCardsGained)
+    console.log("mano:", privateInfo?.districtsInHand)
 
 
     const mustChoose = isPlayerTurn && !gameState?.turnCompleted;
@@ -122,7 +123,7 @@ const Game = () => {
                 {Array.from({ length: count }).map((_, i) => (
                     <div
                         key={i}
-                        className="aspect-[3/4] w-[68px] tablet:w-[98px] shrink-0 overflow-hidden">
+                        className="aspect-[3/4] w-[80px] tablet:w-[112px] shrink-0 overflow-hidden">
                         <img
                             src={cartaAtras}
                             alt={`Distrito ${i + 1}`}
@@ -339,21 +340,21 @@ const Game = () => {
                         <div className="celda">
                             <div className="grid grid-cols-1 gap-3 controls">
                                 <button
-                                    disabled={!isPlayerTurn}
+                                    disabled={!isPlayerTurn || mustChoose}
                                     onClick={() => setCanBuild(!canBuild)}
                                     className="btn-action"
                                 >
                                     Comprar distrito
                                 </button>
                                 <button
-                                    disabled={!canUseCharacterHability}
+                                    disabled={!canUseCharacterHability || mustChoose}
                                     onClick={() => setShowCharacterHability(true)}
                                     className="btn-action"
                                 >
                                     Habilidad personaje
                                 </button>
                                 <button
-                                    disabled={!isPlayerTurn}
+                                    disabled={!isPlayerTurn || mustChoose}
                                     onClick={nextStep}
                                     className="btn-action"
                                 >

@@ -79,15 +79,6 @@ export default function GameEventManager({
                 isPlayerTurn={isPlayerTurn}
                 setGameEnded={setGameEnded}
             />
-            {current && !mustChoose && current.events !== "ARCHITECT" && current.events !== "PRIVATE" && (
-                <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 pointer-events-none animate-toast-in">
-                    <div className="bg-game-back border border-game-board rounded-xl shadow-xl px-6 py-3 backdrop-blur-md">
-                        <p className="text-game-text-secondary text-lg text-center">
-                            {current.message}
-                        </p>
-                    </div>
-                </div>
-            )}
         </>
     );
 }

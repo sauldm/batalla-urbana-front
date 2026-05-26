@@ -2,11 +2,12 @@ import { useRef, useState, useEffect, Children, cloneElement } from "react";
 
 const GAP = 8;
 const MIN_VISIBLE = 22;
+const HOVER_OFFSET = 14;
 
 const getCardDims = (cW) => {
-    if (cW < 400) return { w: 68, h: 99 };
-    if (cW < 600) return { w: 80, h: 117 };
-    return { w: 98, h: 143 };
+    if (cW < 400) return { w: 80, h: 117 };
+    if (cW < 600) return { w: 96, h: 140 };
+    return { w: 112, h: 164 };
 };
 
 export default function BuiltDistrictsGrid({ children }) {
@@ -48,7 +49,7 @@ export default function BuiltDistrictsGrid({ children }) {
     const startX = overflows ? 0 : Math.max(0, (containerW - totalW) / 2);
 
     return (
-        <div ref={containerRef} className="w-full">
+        <div ref={containerRef} className="w-full" style={{ paddingTop: HOVER_OFFSET }}>
             {clickedIdx !== null && (
                 <div
                     className="fixed inset-0"

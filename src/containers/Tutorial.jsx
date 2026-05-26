@@ -48,7 +48,7 @@ const PLAYER_CHARACTER_CARDS = [
 const STEPS = [
     {
         title: "¡Bienvenido al tutorial!",
-        text: "Este es el tablero de Batalla Urbana. El primero en construir 7 distritos gana. Te guiaré por cada parte del tablero paso a paso.",
+        text: "Este es el tablero de Batalla Urbana. El primero en construir 8 distritos gana. Te guiaré por cada parte del tablero paso a paso.",
         area: null,
         side: "center",
     },
@@ -126,7 +126,7 @@ const STEPS = [
     },
     {
         title: "¡Ya estás listo para jugar!",
-        text: "Recuerda: elige personaje → cobra recompensa → construye → usa habilidad → termina turno. Construye 7 distritos antes que tu rival para ganar. ¡Buena suerte!",
+        text: "Recuerda: elige personaje → cobra recompensa → construye → usa habilidad → termina turno. Construye 8 distritos antes que tu rival para ganar. ¡Buena suerte!",
         area: null,
         side: "center",
     },
@@ -268,7 +268,7 @@ export default function Tutorial() {
                     <div id="t-enemy-hand" className="celda">
                         <ScrollableCardRow>
                             {Array.from({ length: ENEMY.numberDistrictsInHand }).map((_, i) => (
-                                <div key={i} className="aspect-[3/4] w-[68px] tablet:w-[98px] shrink-0 overflow-hidden">
+                                <div key={i} className="aspect-[3/4] w-[80px] tablet:w-[112px] shrink-0 overflow-hidden">
                                     <img src={cartaAtras} alt="carta" className="w-full h-full object-cover block" />
                                 </div>
                             ))}
