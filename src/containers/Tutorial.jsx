@@ -72,13 +72,13 @@ const STEPS = [
     },
     {
         title: "Ciudad del rival",
-        text: "Los distritos que tu rival ya ha construido. Si llega a 7 antes que tú, gana. Pasa el ratón sobre las cartas apiladas para verlas individualmente.",
+        text: "Los distritos que tu rival ya ha construido. Si llega a 8 antes que tú, gana. Pasa el ratón sobre las cartas apiladas para verlas individualmente.",
         area: "enemy-built",
         side: "bottom",
     },
     {
         title: "Tu ciudad",
-        text: "Aquí van tus distritos construidos. Tu objetivo es llegar a 7. Intenta construir distritos de distintos colores: al final de la partida obtendrás puntos extra por variedad.",
+        text: "Aquí van tus distritos construidos. Tu objetivo es llegar a 8. Intenta construir distritos de distintos colores: al final de la partida obtendrás puntos extra por variedad.",
         area: "player-built",
         side: "top",
     },
