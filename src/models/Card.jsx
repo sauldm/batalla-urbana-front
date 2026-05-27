@@ -83,9 +83,9 @@ const PatternSVG = ({ pattern }) => {
 
 
 // ── Tamaño compartido ──────────────────────────────────────────────────────
-const SIZE_CLASSES           = "w-[96px] h-[140px] tablet:w-[130px] tablet:h-[190px] desktop:w-[150px] desktop:h-[220px]";
-const SIZE_CLASSES_SMALL     = "w-[80px] h-[117px] tablet:w-[112px] tablet:h-[164px] desktop:w-[130px] desktop:h-[190px]";
-const SIZE_CLASSES_CHARACTER = "w-[120px] h-[175px] tablet:w-[162px] tablet:h-[237px] desktop:w-[190px] desktop:h-[278px]";
+const SIZE_CLASSES           = "w-[clamp(72px,11vh,96px)] h-[clamp(96px,14.5vh,140px)] tablet:w-[clamp(96px,13vh,130px)] tablet:h-[clamp(128px,17.5vh,190px)] desktop:w-[clamp(112px,14.5vh,150px)] desktop:h-[clamp(150px,19.5vh,220px)]";
+const SIZE_CLASSES_SMALL     = "w-[clamp(60px,9vh,80px)] h-[clamp(80px,12vh,117px)] tablet:w-[clamp(84px,11vh,112px)] tablet:h-[clamp(112px,14.5vh,164px)] desktop:w-[clamp(97px,12.5vh,130px)] desktop:h-[clamp(130px,16.5vh,190px)]";
+const SIZE_CLASSES_CHARACTER = "w-[clamp(90px,13vh,120px)] h-[clamp(120px,17.5vh,175px)] tablet:w-[clamp(121px,15.5vh,162px)] tablet:h-[clamp(162px,20.5vh,237px)] desktop:w-[clamp(142px,18vh,190px)] desktop:h-[clamp(190px,24vh,278px)]";
 const SIZE_CLASSES_FLUID     = "w-full h-full";
 const HOVER_CLASSES = "transition-transform duration-200 hover:scale-105 hover:-translate-y-1";
 

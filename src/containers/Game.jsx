@@ -124,7 +124,7 @@ const Game = () => {
                 {Array.from({ length: count }).map((_, i) => (
                     <div
                         key={i}
-                        className="w-[80px] h-[117px] tablet:w-[112px] tablet:h-[164px] desktop:w-[130px] desktop:h-[190px] shrink-0 overflow-hidden">
+                        className="w-[clamp(60px,9vh,80px)] h-[clamp(80px,12vh,117px)] tablet:w-[clamp(84px,11vh,112px)] tablet:h-[clamp(112px,14.5vh,164px)] desktop:w-[clamp(97px,12.5vh,130px)] desktop:h-[clamp(130px,16.5vh,190px)] shrink-0 overflow-hidden">
                         <img
                             src={cartaAtras}
                             alt={`Distrito ${i + 1}`}
