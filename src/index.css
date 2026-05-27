@@ -348,7 +348,7 @@
 
   .card-row .card-component {
     flex: 0 0 auto;
-    width: clamp(64px, 20vw, 140px);
+    width: clamp(64px, min(20vw, 11vh), 140px);
   }
 
   .card-component img {
