@@ -10,7 +10,7 @@
  * @throws {Error} Cuando la respuesta HTTP no es `ok`.
  */
 export async function getClassificationTable() {
-    const res = await fetch("http://93.93.112.225:8080/getClassificationTable");
+    const res = await fetch("https://batallaurbana.com/api/getClassificationTable");
     if (!res.ok) {
         throw new Error("Error creando lobby");
     }

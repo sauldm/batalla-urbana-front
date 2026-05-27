@@ -16,7 +16,7 @@ La aplicación se conecta al backend mediante WebSockets para recibir eventos de
 
 ## Demo online
 
-- Aplicación web: http://93.93.112.225
+- Aplicación web: https://batallaurbana.com
 
 ---
 
