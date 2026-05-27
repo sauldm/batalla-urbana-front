@@ -33,22 +33,15 @@ export default function CharacterCardStack({ cards, characterTurnId, label = "Tu
           onClick={() => setOpen(false)}
         >
           <div
-            className="flex flex-col items-center gap-6 p-8 rounded-2xl bg-white/5"
+            className="flex flex-col items-center gap-6 p-6 rounded-2xl bg-white/5 max-w-[90vw] max-h-[90vh] overflow-y-auto"
             onClick={e => e.stopPropagation()}
           >
             <span className="text-game-accent text-xs uppercase tracking-widest">
               {label}
             </span>
-            <div className="flex gap-10 items-center justify-center">
+            <div className="flex flex-wrap gap-6 items-center justify-center">
               {cards.map(c => (
-                <div
-                  key={c.id}
-                  style={{ width: 168, height: 246, display: "flex", alignItems: "center", justifyContent: "center" }}
-                >
-                  <div style={{ transform: "scale(1.5)", transformOrigin: "center center" }}>
-                    <Card card={c} isCurrentTurn={c.id === characterTurnId} />
-                  </div>
-                </div>
+                <Card key={c.id} card={c} character isCurrentTurn={c.id === characterTurnId} />
               ))}
             </div>
           </div>
