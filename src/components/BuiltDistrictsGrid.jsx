@@ -4,15 +4,28 @@ const GAP = 8;
 const MIN_VISIBLE = 22;
 const HOVER_OFFSET = 14;
 
-const getCardDims = (cW) => {
-    if (cW < 400) return { w: 80, h: 117 };
-    if (cW < 600) return { w: 96, h: 140 };
-    return { w: 112, h: 164 };
+const getCardDims = (cW, cH) => {
+    let w, h;
+    if (cW < 400) { w = 80; h = 117; }
+    else if (cW < 600) { w = 96; h = 140; }
+    else { w = 112; h = 164; }
+
+    if (cH > 0) {
+        const availH = cH - HOVER_OFFSET;
+        if (availH > 40 && h > availH) {
+            const scale = availH / h;
+            h = Math.floor(availH);
+            w = Math.max(30, Math.floor(w * scale));
+        }
+    }
+
+    return { w, h };
 };
 
 export default function BuiltDistrictsGrid({ children }) {
     const containerRef = useRef(null);
     const [containerW, setContainerW] = useState(null);
+    const [containerH, setContainerH] = useState(null);
     const [hoveredIdx, setHoveredIdx] = useState(null);
     const [clickedIdx, setClickedIdx] = useState(null);
 
@@ -22,20 +35,23 @@ export default function BuiltDistrictsGrid({ children }) {
     useEffect(() => {
         const el = containerRef.current;
         if (!el) return;
-        const check = () => setContainerW(el.clientWidth);
+        const check = () => {
+            setContainerW(el.clientWidth);
+            setContainerH(el.clientHeight);
+        };
         check();
         const ro = new ResizeObserver(check);
         ro.observe(el);
         return () => ro.disconnect();
     }, []);
 
-    if (count === 0) return <div ref={containerRef} className="w-full" />;
+    if (count === 0) return <div ref={containerRef} className="w-full h-full" />;
 
-    const dims = containerW !== null ? getCardDims(containerW) : { w: 98, h: 143 };
+    const dims = containerW !== null ? getCardDims(containerW, containerH) : { w: 98, h: 143 };
     const { w: CARD_W, h: CARD_H } = dims;
 
     if (containerW === null) {
-        return <div ref={containerRef} className="w-full" style={{ height: CARD_H }} />;
+        return <div ref={containerRef} className="w-full h-full" />;
     }
 
     const naturalW = CARD_W * count + GAP * (count - 1);
@@ -49,7 +65,7 @@ export default function BuiltDistrictsGrid({ children }) {
     const startX = overflows ? 0 : Math.max(0, (containerW - totalW) / 2);
 
     return (
-        <div ref={containerRef} className="w-full" style={{ paddingTop: HOVER_OFFSET }}>
+        <div ref={containerRef} className="w-full h-full" style={{ paddingTop: HOVER_OFFSET }}>
             {clickedIdx !== null && (
                 <div
                     className="fixed inset-0"
