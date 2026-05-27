@@ -83,9 +83,10 @@ const PatternSVG = ({ pattern }) => {
 
 
 // ── Tamaño compartido ──────────────────────────────────────────────────────
-const SIZE_CLASSES       = "w-[96px] h-[140px] tablet:w-[130px] tablet:h-[190px] desktop:w-[150px] desktop:h-[220px]";
-const SIZE_CLASSES_SMALL = "w-[80px] h-[117px] tablet:w-[112px] tablet:h-[164px] desktop:w-[130px] desktop:h-[190px]";
-const SIZE_CLASSES_FLUID = "w-full h-full";
+const SIZE_CLASSES           = "w-[96px] h-[140px] tablet:w-[130px] tablet:h-[190px] desktop:w-[150px] desktop:h-[220px]";
+const SIZE_CLASSES_SMALL     = "w-[80px] h-[117px] tablet:w-[112px] tablet:h-[164px] desktop:w-[130px] desktop:h-[190px]";
+const SIZE_CLASSES_CHARACTER = "w-[120px] h-[175px] tablet:w-[162px] tablet:h-[237px] desktop:w-[190px] desktop:h-[278px]";
+const SIZE_CLASSES_FLUID     = "w-full h-full";
 const HOVER_CLASSES = "transition-transform duration-200 hover:scale-105 hover:-translate-y-1";
 
 // Franja de color por tipo de personaje (color de la carta)
@@ -99,16 +100,21 @@ const CHARACTER_COLOR_STRIP = {
 };
 
 // ── Carta de PERSONAJE — imagen a pantalla completa ────────────────────────
-function CharacterCardView({ card, theme, canBuild, onBuild, isCurrentTurn, small, fluid, className }) {
+function CharacterCardView({ card, theme, canBuild, onBuild, isCurrentTurn, small, character, fluid, className }) {
   const img = CHARACTER_IMAGES[card.id];
   const strip = CHARACTER_COLOR_STRIP[card.color] ?? CHARACTER_COLOR_STRIP[0];
+
+  const sizeClass = fluid ? SIZE_CLASSES_FLUID
+    : character ? SIZE_CLASSES_CHARACTER
+    : small     ? SIZE_CLASSES_SMALL
+    : SIZE_CLASSES;
 
   return (
     <div
       onClick={(e) => { e.stopPropagation(); if (canBuild) onBuild?.(); }}
       className={`
         card-visual relative flex-shrink-0 rounded-xl overflow-hidden select-none
-        ${fluid ? SIZE_CLASSES_FLUID : small ? SIZE_CLASSES_SMALL : SIZE_CLASSES} ${HOVER_CLASSES}
+        ${sizeClass} ${HOVER_CLASSES}
         ${canBuild
           ? "cursor-pointer ring-2 ring-yellow-400 shadow-[0_0_18px_rgba(250,204,21,0.55)]"
           : "cursor-default"
