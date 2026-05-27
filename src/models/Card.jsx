@@ -1,23 +1,23 @@
 import TakeThree from "./charactermodal/TakeThree";
 import { useState } from "react";
 import { createPortal } from "react-dom";
-import divitia from "../utils/images/divitia.png";
-import distritoImg    from "../utils/images/distrito.png";
-import edificioGobImg  from "../utils/images/edificioGob.png";
-import edificioConqImg from "../utils/images/edificioConq.png";
-import edificioInqImg  from "../utils/images/edificioInq.png";
-import edificioMercImg from "../utils/images/edificioMerc.png";
-import especialImg     from "../utils/images/especial.png";
+import { IMAGES } from "../utils/images";
 
-// ── Imágenes de personaje ──────────────────────────────────────────────────
-import asesinoImg     from "../utils/images/verdugo.png";
-import ladronImg      from "../utils/images/ladron.png";
-import ilusionistaImg from "../utils/images/ilusionista.png";
-import gobernadorImg  from "../utils/images/gobernador.png";
-import inquisidorImg  from "../utils/images/inquisidor.png";
-import mercaderImg    from "../utils/images/mercader.png";
-import forjadorImg    from "../utils/images/forjador.png";
-import conquistadorImg from "../utils/images/conquistador.png";
+const divitia        = IMAGES.divitia;
+const distritoImg    = IMAGES.distrito;
+const edificioGobImg  = IMAGES.edificioGob;
+const edificioConqImg = IMAGES.edificioConq;
+const edificioInqImg  = IMAGES.edificioInq;
+const edificioMercImg = IMAGES.edificioMerc;
+const especialImg     = IMAGES.especial;
+const asesinoImg     = IMAGES.verdugo;
+const ladronImg      = IMAGES.ladron;
+const ilusionistaImg = IMAGES.ilusionista;
+const gobernadorImg  = IMAGES.gobernador;
+const inquisidorImg  = IMAGES.inquisidor;
+const mercaderImg    = IMAGES.mercader;
+const forjadorImg    = IMAGES.forjador;
+const conquistadorImg = IMAGES.conquistador;
 
 // Mapa id de personaje → imagen
 const CHARACTER_IMAGES = {

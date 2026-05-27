@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { useSocket } from "../services/webSocket/socketProvider";
-import fondo from "../utils/images/fondo.jpg";
-import divitia from "../utils/images/divitia.png";
-import cartaAtras from "../utils/images/carta-atras.png";
+import { IMAGES } from "../utils/images";
+const fondo = IMAGES.fondo;
+const divitia = IMAGES.divitia;
+const cartaAtras = IMAGES.cartaAtras;
 import Card from "../models/Card";
 import GameEventManager from "../services/GameEventManager";
 import { useGame } from "../providers/GameProvider";

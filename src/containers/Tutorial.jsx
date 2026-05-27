@@ -4,9 +4,10 @@ import Card from "../models/Card";
 import CharacterCardStack from "../components/CharacterCardStack";
 import BuiltDistrictsGrid from "../components/BuiltDistrictsGrid";
 import ScrollableCardRow from "../components/ScrollableCardRow";
-import divitia from "../utils/images/divitia.png";
-import cartaAtras from "../utils/images/carta-atras.png";
-import fondo from "../utils/images/fondo.jpg";
+import { IMAGES } from "../utils/images";
+const divitia = IMAGES.divitia;
+const cartaAtras = IMAGES.cartaAtras;
+const fondo = IMAGES.fondo;
 
 // ── Mock data ─────────────────────────────────────────────────────────────
 const ENEMY = {
