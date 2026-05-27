@@ -39,7 +39,7 @@ function DraggablePanel({ children }) {
 
   const posStyle = pos
     ? { position: "fixed", left: pos.x, top: pos.y, zIndex: 50 }
-    : { position: "fixed", bottom: "1rem", left: "50%", transform: "translateX(-50%)", zIndex: 50 };
+    : { position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)", zIndex: 50 };
 
   return (
     <div ref={panelRef} style={{ ...posStyle, width: "100%", maxWidth: "28rem", padding: "0 1rem" }}>

@@ -48,7 +48,7 @@ const PLAYER_CHARACTER_CARDS = [
 const STEPS = [
     {
         title: "¡Bienvenido al tutorial!",
-        text: "Este es el tablero de Batalla Urbana. El primero en construir 8 distritos gana. Te guiaré por cada parte del tablero paso a paso.",
+        text: "Este es el tablero de Batalla Urbana. Cuando alguien construye su octavo distrito acaba la partida y gana quien más puntos tenga. Los puntos son la suma del coste en oro de todos tus distritos construidos. Te guiaré por cada parte del tablero paso a paso.",
         area: null,
         side: "center",
     },
@@ -66,31 +66,31 @@ const STEPS = [
     },
     {
         title: "Personajes jugados",
-        text: "Aquí aparecen los personajes que tu rival ha jugado esta partida. Cada ronda ambos elegís un personaje en secreto. Conocer los suyos te ayuda a predecir su estrategia.",
+        text: "Aquí aparecen los personajes que tu rival ha jugado esta partida. Cada ronda se os repartirá 2 personajes aleatorios.",
         area: "enemy-chars",
         side: "left",
     },
     {
         title: "Ciudad del rival",
-        text: "Los distritos que tu rival ya ha construido. Si llega a 7 antes que tú, gana. Pasa el ratón sobre las cartas apiladas para verlas individualmente.",
+        text: "Los distritos que tu rival ya ha construido. Cuando alguien llega a 8, la partida termina y se cuentan puntos. Pasa el ratón sobre las cartas apiladas para verlas individualmente.",
         area: "enemy-built",
         side: "bottom",
     },
     {
         title: "Tu ciudad",
-        text: "Aquí van tus distritos construidos. Tu objetivo es llegar a 7. Intenta construir distritos de distintos colores: al final de la partida obtendrás puntos extra por variedad.",
+        text: "Aquí van tus distritos construidos. Cada distrito vale tantos puntos como costó en oro. Tu objetivo es tener más puntos que tu rival cuando alguien alcance los 8 distritos. Prioriza distritos caros.",
         area: "player-built",
         side: "top",
     },
     {
         title: "Tus personajes",
-        text: "Al inicio de cada ronda eliges uno en secreto. Cada personaje tiene un color (que te da puntos si construyes distritos de ese color) y una habilidad única.",
+        text: "Cada ronda se os reparten personajes aleatoriamente. Cada personaje tiene un color y una habilidad única. Cuando es el turno de un personaje, su jugador cobra 1 moneda extra por cada distrito construido del mismo color que ese personaje.",
         area: "player-chars",
         side: "right",
     },
     {
         title: "Tu mano",
-        text: "Tus cartas de distrito disponibles para construir. El número en la esquina es su coste en monedas. Planifica bien cuál construir según tu oro disponible.",
+        text: "Tus cartas de distrito disponibles para construir. El número en la esquina es su coste en monedas y también los puntos que vale. Planifica bien: un distrito caro da más puntos pero requiere más oro.",
         area: "player-hand",
         side: "top",
     },
@@ -102,13 +102,13 @@ const STEPS = [
     },
     {
         title: "Cobrar recompensa",
-        text: "Al inicio de tu turno siempre debes elegir: tomar 2 monedas de oro para construir antes, o robar 2 cartas del mazo y quedarte 1. Las monedas dan certeza; las cartas, variedad.",
+        text: "Al inicio de tu turno elige: tomar 2 monedas de oro, o robar 2 cartas del mazo. Además, cobras 1 moneda extra por cada distrito construido que sea del color de tu personaje en este turno.",
         area: "btn-reward",
         side: "left",
     },
     {
         title: "Comprar distrito",
-        text: "Paga el coste en oro de una carta de tu mano para construirla en tu ciudad. Solo puedes construir UNA vez por turno. Elige bien: prioriza distritos del color de tu personaje.",
+        text: "Paga el coste en oro de una carta de tu mano para construirla en tu ciudad. Solo puedes construir UNA vez por turno.",
         area: "btn-build",
         side: "left",
     },
@@ -126,7 +126,7 @@ const STEPS = [
     },
     {
         title: "¡Ya estás listo para jugar!",
-        text: "Recuerda: elige personaje → cobra recompensa → construye → usa habilidad → termina turno. Construye 8 distritos antes que tu rival para ganar. ¡Buena suerte!",
+        text: "Recuerda: recibes personaje → cobra recompensa → construye → usa habilidad → termina turno. La partida acaba cuando alguien llega a 8 distritos. Gana quien más puntos tenga: la suma del coste en oro de todos sus distritos. ¡Buena suerte!",
         area: null,
         side: "center",
     },

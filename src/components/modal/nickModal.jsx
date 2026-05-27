@@ -11,6 +11,7 @@ export default function NickModal() {
     const [password, setPassword] = useState("");
     const [confirm, setConfirm] = useState("");
     const [error, setError] = useState("");
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
 
     const reset = () => { setNick(""); setPassword(""); setConfirm(""); setError(""); };
 
@@ -26,9 +27,13 @@ export default function NickModal() {
                 if (password !== confirm) {
                     setError("Las contraseñas no coinciden"); return;
                 }
-                if (password.length < 4) {
-                    setError("La contraseña debe tener al menos 4 caracteres"); return;
+                if (password.length < 8) {
+                    setError("La contraseña debe tener al menos 8 caracteres"); return;
                 }
+                if (!passwordRegex.test(password)) {
+                    setError("La contraseña debe tener mayúsculas, minúsculas y números"); return;
+                }
+                
                 if (nickExists(nick.trim())) {
                     setError("Ese nick ya está en uso"); return;
                 }
