@@ -41,7 +41,9 @@ export default function CharacterCardStack({ cards, characterTurnId, label = "Tu
             </span>
             <div className="flex flex-wrap gap-6 items-center justify-center">
               {cards.map(c => (
-                <Card key={c.id} card={c} character isCurrentTurn={c.id === characterTurnId} />
+                <div key={c.id} className="w-[120px] h-[175px] tablet:w-[150px] tablet:h-[219px] desktop:w-[165px] desktop:h-[241px] shrink-0">
+                  <Card card={c} fluid isCurrentTurn={c.id === characterTurnId} />
+                </div>
               ))}
             </div>
           </div>
