@@ -15,16 +15,15 @@ export default function CharacterCardStack({ cards, characterTurnId, label = "Tu
     <>
       {/* Mazo apilado — segunda carta girada detrás, primera delante */}
       <div
-        className="relative cursor-pointer select-none"
-        style={{ width: 138, height: 182 }}
+        className="relative cursor-pointer select-none w-[106px] h-[134px] tablet:w-[140px] tablet:h-[185px] desktop:w-[162px] desktop:h-[214px]"
       >
         {second && (
           <div className="absolute" style={{ top: 12, left: 16, transform: "rotate(8deg)", zIndex: 1 }}>
-            <Card card={second} isCurrentTurn={second.id === characterTurnId} />
+            <Card card={second} small isCurrentTurn={second.id === characterTurnId} />
           </div>
         )}
         <div className="absolute" style={{ top: 0, left: 0, zIndex: 2 }}>
-          <Card card={first} isCurrentTurn={first.id === characterTurnId} />
+          <Card card={first} small isCurrentTurn={first.id === characterTurnId} />
         </div>
         {/* Capa transparente por encima de las cartas para capturar el click */}
         <div className="absolute inset-0" style={{ zIndex: 10 }} onClick={() => setOpen(true)} />
