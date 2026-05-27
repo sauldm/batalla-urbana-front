@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { useSocket } from "../services/webSocket/socketProvider";
-import fondo from "../utils/images/fondo.jpg";
-import divitia from "../utils/images/divitia.png";
-import cartaAtras from "../utils/images/carta-atras.png";
+import { IMAGES } from "../utils/images";
+const fondo = IMAGES.fondo;
+const divitia = IMAGES.divitia;
+const cartaAtras = IMAGES.cartaAtras;
 import Card from "../models/Card";
 import GameEventManager from "../services/GameEventManager";
 import { useGame } from "../providers/GameProvider";
@@ -123,7 +124,7 @@ const Game = () => {
                 {Array.from({ length: count }).map((_, i) => (
                     <div
                         key={i}
-                        className="aspect-[3/4] w-[80px] tablet:w-[112px] shrink-0 overflow-hidden">
+                        className="w-[80px] h-[117px] tablet:w-[112px] tablet:h-[164px] desktop:w-[130px] desktop:h-[190px] shrink-0 overflow-hidden">
                         <img
                             src={cartaAtras}
                             alt={`Distrito ${i + 1}`}
@@ -270,8 +271,8 @@ const Game = () => {
                             </div>
                         </div>
                         <div className="celda">{getEnemyDistrictsInHand()}</div>
-                        <div className="celda">
-                            <div className="character-stack flex items-center justify-center h-full">
+                        <div className="celda overflow-visible">
+                            <div className="character-stack flex items-center justify-center h-full relative z-10">
                                 <CharacterCardStack
                                     cards={enemy.characterCardsPlayed}
                                     characterTurnId={gameState.characterTurnId}
@@ -308,8 +309,8 @@ const Game = () => {
                         </div>
 
                         {/* Fila 4 */}
-                        <div className="celda">
-                            <div className="character-stack flex items-center justify-center h-full">
+                        <div className="celda overflow-visible">
+                            <div className="character-stack flex items-center justify-center h-full relative z-10">
                                 <CharacterCardStack
                                     cards={privateInfo.characterCards}
                                     characterTurnId={gameState.characterTurnId}

@@ -1,4 +1,5 @@
-import logo from "../utils/images/logo.png";
+import { IMAGES } from "../utils/images";
+const logo = IMAGES.logo;
 
 export default function Title({ text }) {
     return (

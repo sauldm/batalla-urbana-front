@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import Card from "../../models/Card";
-import divitia from "../../utils/images/divitia.png";
-import distritoImg from "../../utils/images/distrito.png";
+import { IMAGES } from "../../utils/images";
+const divitia = IMAGES.divitia;
+const distritoImg = IMAGES.distrito;
 
 function DraggablePanel({ children }) {
   const [pos, setPos] = useState(null);

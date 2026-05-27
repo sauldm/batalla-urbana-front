@@ -13,19 +13,16 @@ export default function CharacterCardStack({ cards, characterTurnId, label = "Tu
 
   return (
     <>
-      {/* Mazo apilado — segunda carta girada detrás, primera delante */}
-      <div
-        className="relative cursor-pointer select-none w-[106px] h-[134px] tablet:w-[140px] tablet:h-[185px] desktop:w-[162px] desktop:h-[214px]"
-      >
+      {/* Contenedor fluido: ocupa la altura de la celda y mantiene proporción 2:3 */}
+      <div className="relative cursor-pointer select-none h-full" style={{ aspectRatio: "2/3", maxWidth: "100%" }}>
         {second && (
-          <div className="absolute" style={{ top: 12, left: 16, transform: "rotate(8deg)", zIndex: 1 }}>
-            <Card card={second} small isCurrentTurn={second.id === characterTurnId} />
+          <div className="absolute inset-0" style={{ transform: "translate(8px, 6px) rotate(8deg)", zIndex: 1 }}>
+            <Card card={second} fluid isCurrentTurn={second.id === characterTurnId} />
           </div>
         )}
-        <div className="absolute" style={{ top: 0, left: 0, zIndex: 2 }}>
-          <Card card={first} small isCurrentTurn={first.id === characterTurnId} />
+        <div className="absolute inset-0" style={{ zIndex: 2 }}>
+          <Card card={first} fluid isCurrentTurn={first.id === characterTurnId} />
         </div>
-        {/* Capa transparente por encima de las cartas para capturar el click */}
         <div className="absolute inset-0" style={{ zIndex: 10 }} onClick={() => setOpen(true)} />
       </div>
 

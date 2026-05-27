@@ -4,9 +4,10 @@ import Card from "../models/Card";
 import CharacterCardStack from "../components/CharacterCardStack";
 import BuiltDistrictsGrid from "../components/BuiltDistrictsGrid";
 import ScrollableCardRow from "../components/ScrollableCardRow";
-import divitia from "../utils/images/divitia.png";
-import cartaAtras from "../utils/images/carta-atras.png";
-import fondo from "../utils/images/fondo.jpg";
+import { IMAGES } from "../utils/images";
+const divitia = IMAGES.divitia;
+const cartaAtras = IMAGES.cartaAtras;
+const fondo = IMAGES.fondo;
 
 // ── Mock data ─────────────────────────────────────────────────────────────
 const ENEMY = {
@@ -268,15 +269,15 @@ export default function Tutorial() {
                     <div id="t-enemy-hand" className="celda">
                         <ScrollableCardRow>
                             {Array.from({ length: ENEMY.numberDistrictsInHand }).map((_, i) => (
-                                <div key={i} className="aspect-[3/4] w-[80px] tablet:w-[112px] shrink-0 overflow-hidden">
+                                <div key={i} className="w-[80px] h-[117px] tablet:w-[112px] tablet:h-[164px] desktop:w-[130px] desktop:h-[190px] shrink-0 overflow-hidden">
                                     <img src={cartaAtras} alt="carta" className="w-full h-full object-cover block" />
                                 </div>
                             ))}
                         </ScrollableCardRow>
                     </div>
 
-                    <div id="t-enemy-chars" className="celda">
-                        <div className="character-stack flex items-center justify-center h-full">
+                    <div id="t-enemy-chars" className="celda overflow-visible">
+                        <div className="character-stack flex items-center justify-center h-full relative z-10">
                             <CharacterCardStack cards={ENEMY.characterCardsPlayed} characterTurnId={3} label="Cartas jugadas" />
                         </div>
                     </div>
@@ -296,8 +297,8 @@ export default function Tutorial() {
                     </div>
 
                     {/* Fila 4: jugador */}
-                    <div id="t-player-chars" className="celda">
-                        <div className="character-stack flex items-center justify-center h-full">
+                    <div id="t-player-chars" className="celda overflow-visible">
+                        <div className="character-stack flex items-center justify-center h-full relative z-10">
                             <CharacterCardStack cards={PLAYER_CHARACTER_CARDS} characterTurnId={1} />
                         </div>
                     </div>

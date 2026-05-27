@@ -139,7 +139,7 @@
     width: 100%;
     /* fill the height of the parent (parent will govern available height via flex) */
     height: 100%;
-    overflow: hidden;
+    overflow: visible;
     gap: 8px;
     box-sizing: border-box;
     padding: 8px;
@@ -164,19 +164,6 @@
     }
   }
 
-  /* Escala automática del stack de personajes en celdas estrechas */
-  @container (max-width: 110px) {
-    .character-stack { zoom: 0.60; }
-  }
-  @container (max-width: 130px) {
-    .character-stack { zoom: 0.70; }
-  }
-  @container (max-width: 155px) {
-    .character-stack { zoom: 0.82; }
-  }
-  @container (max-width: 175px) {
-    .character-stack { zoom: 0.90; }
-  }
 
   /* TABLET: ajustes intermedios */
   @media (min-width: 768px) and (max-width: 1199px) {
