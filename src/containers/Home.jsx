@@ -42,8 +42,9 @@ export default function Home() {
   return (
     <Layout>
       <Helmet>
-        <title>Batalla Urbana — Juego de estrategia medieval multijugador</title>
-        <meta name="description" content="Crea o únete a una partida de Batalla Urbana. Elige personajes, construye tu ciudad y supera a tus rivales en este juego de estrategia en línea." />
+        <title>Batalla Urbana — Juego de estrategia medieval online gratis</title>
+        <meta name="description" content="Juego de estrategia por turnos para 2 jugadores. Personajes con habilidades únicas, construye distritos y derrota a tu rival. Sin descarga, directamente desde el navegador." />
+        <meta name="keywords" content="juego de cartas online sin descarga, juego de estrategia multijugador navegador, juego de mesa online sin instalar, juego medieval por turnos gratis, juego de estrategia 2 jugadores navegador" />
         <link rel="canonical" href="https://batallaurbana.com/" />
       </Helmet>
 
