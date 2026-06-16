@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import Card from "../models/Card";
 import CharacterCardStack from "../components/CharacterCardStack";
 import BuiltDistrictsGrid from "../components/BuiltDistrictsGrid";
@@ -230,6 +231,11 @@ export default function Tutorial() {
 
     return (
         <div className="w-screen h-screen flex flex-col bg-game-bg overflow-hidden">
+            <Helmet>
+                <title>Cómo jugar — Batalla Urbana</title>
+                <meta name="description" content="Aprende a jugar Batalla Urbana paso a paso: personajes, construcción de distritos, habilidades y estrategia para ganar." />
+                <link rel="canonical" href="https://batallaurbana.com/tutorial" />
+            </Helmet>
 
             {/* Barra superior mock */}
             <div className="flex items-center justify-between gap-1 tablet:grid tablet:grid-cols-3 tablet:gap-2 py-1 px-3 shrink-0"
