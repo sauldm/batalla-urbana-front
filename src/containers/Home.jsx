@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import Layout from "../components/layout/Layout";
 import { useSocket } from "../services/webSocket/socketProvider";
 import { createLobbyHttp, joinLobbyHttp } from "../services/api/lobbyApi";
@@ -40,6 +41,12 @@ export default function Home() {
 
   return (
     <Layout>
+      <Helmet>
+        <title>Batalla Urbana — Juego de estrategia medieval multijugador</title>
+        <meta name="description" content="Crea o únete a una partida de Batalla Urbana. Elige personajes, construye tu ciudad y supera a tus rivales en este juego de estrategia en línea." />
+        <link rel="canonical" href="https://batallaurbana.com/" />
+      </Helmet>
+
       {/* Hero */}
       <section className="text-center pt-10 pb-8 px-4">
         <p className="text-game-text-secondary text-sm tracking-[0.25em] uppercase mb-2">

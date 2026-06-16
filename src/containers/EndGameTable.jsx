@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import getClassificationTable from "../services/api/classificationTableApi";
 import { useNavigate } from "react-router-dom";
 import Layout from "../components/layout/Layout";
@@ -15,6 +16,12 @@ export const EndGameTable = () => {
 
     return (
         <Layout>
+            <Helmet>
+                <title>Clasificación — Batalla Urbana</title>
+                <meta name="description" content="Tabla de clasificación global de Batalla Urbana. Consulta los mejores jugadores y sus puntuaciones." />
+                <link rel="canonical" href="https://batallaurbana.com/ranking" />
+            </Helmet>
+
             {/* Hero */}
             <section className="text-center pt-10 pb-8 px-4">
                 <p className="text-game-accent text-sm tracking-[0.25em] uppercase mb-2">Partida finalizada</p>
